@@ -30,6 +30,9 @@ app.use('/api/assets', require('./src/routes/assets'));
 app.use('/api/allocations', require('./src/routes/allocations'));
 app.use('/api/transfers', require('./src/routes/transfers'));
 app.use('/api/bookings', require('./src/routes/bookings'));
+app.use('/api/maintenance', require('./src/routes/maintenance'));
+app.use('/api', require('./src/routes/audits'));
+app.use('/api', require('./src/routes/dashboard'));
 
 // Protected test route — returns decoded token payload from req.user
 // Usage: GET /api/me with Authorization: Bearer <token>

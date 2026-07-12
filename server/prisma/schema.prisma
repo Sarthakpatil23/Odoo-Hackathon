@@ -2,8 +2,9 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider   = "prisma-client-js"
+  output     = "../generated/prisma"
+  engineType = "library"
 }
 
 datasource db {
@@ -238,6 +239,7 @@ model MaintenanceRequest {
   photoUrl   String?
   status     MaintenanceStatus   @default(Pending)
   approvedById String?
+  technician String?
   createdAt  DateTime            @default(now())
   updatedAt  DateTime            @updatedAt
 

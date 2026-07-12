@@ -64,13 +64,9 @@ export default function App() {
             <Route path="/allocations" element={<Allocations />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/maintenance" element={<Maintenance />} />
+            <Route path="/audits" element={<Audits />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/notifications" element={<Notifications />} />
-
-            {/* Admin + AssetManager only */}
-            <Route element={<RoleProtectedRoute allowedRoles={['Admin', 'AssetManager']} />}>
-              <Route path="/audits" element={<Audits />} />
-            </Route>
 
             {/* Admin only */}
             <Route element={<RoleProtectedRoute allowedRoles={['Admin']} />}>
