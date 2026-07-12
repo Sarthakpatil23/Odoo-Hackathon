@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import AppLayout from './layouts/AppLayout';
 import Dashboard from './pages/Dashboard';
 import OrganizationSetup from './pages/OrganizationSetup';
+import Allocations from './pages/Allocations';
 import { ProtectedRoute, RoleProtectedRoute } from './components/ProtectedRoute';
 
 // Standard Under-Construction Placeholder for other operations
@@ -35,7 +36,7 @@ export default function App() {
             </Route>
 
             <Route path="/assets" element={<Placeholder name="Asset Registry" />} />
-            <Route path="/allocations" element={<Placeholder name="Allocation & Transfer" />} />
+            <Route path="/allocations" element={<Allocations />} />
             <Route path="/bookings" element={<Placeholder name="Resource Booking" />} />
             <Route path="/maintenance" element={<Placeholder name="Maintenance Tickets" />} />
             <Route path="/audits" element={<Placeholder name="Audit Cycle Verification" />} />
