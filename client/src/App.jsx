@@ -9,6 +9,7 @@ import Assets from './pages/Assets';
 import Maintenance from './pages/Maintenance';
 import Reports from './pages/Reports';
 import Audits from './pages/Audits';
+import Notifications from './pages/Notifications';
 import { ProtectedRoute, RoleProtectedRoute } from './components/ProtectedRoute';
 
 // Standard Under-Construction Placeholder for other operations
@@ -45,7 +46,7 @@ export default function App() {
             <Route path="/maintenance" element={<Maintenance />} />
             <Route path="/audits" element={<Audits />} />
             <Route path="/reports" element={<Reports />} />
-            <Route path="/notifications" element={<Placeholder name="Activity Logs & Notifications" />} />
+            <Route path="/notifications" element={<Notifications />} />
           </Route>
         </Route>
 
