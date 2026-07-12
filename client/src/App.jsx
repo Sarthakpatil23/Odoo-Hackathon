@@ -1,15 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './pages/Landing';
-<<<<<<< HEAD
-import Maintenance from './pages/Maintenance';
-=======
 import Login from './pages/Login';
 import AppLayout from './layouts/AppLayout';
 import Dashboard from './pages/Dashboard';
 import OrganizationSetup from './pages/OrganizationSetup';
 import Allocations from './pages/Allocations';
-import { ProtectedRoute, RoleProtectedRoute } from './components/ProtectedRoute';
 import Assets from './pages/Assets';
+import Maintenance from './pages/Maintenance';
+import { ProtectedRoute, RoleProtectedRoute } from './components/ProtectedRoute';
 
 // Standard Under-Construction Placeholder for other operations
 const Placeholder = ({ name }) => (
@@ -18,7 +16,6 @@ const Placeholder = ({ name }) => (
     <div className="text-xs text-muted-foreground-2">This module is under active development. Keep scanning other sections.</div>
   </div>
 );
->>>>>>> df78c75a55f9b963f0b8815f7f473203cb774c04
 
 export default function App() {
   return (
@@ -27,13 +24,6 @@ export default function App() {
         {/* Public landing page */}
         <Route path="/" element={<Landing />} />
 
-<<<<<<< HEAD
-        {/* Maintenance Management — Kanban board (Screen 7) */}
-        <Route path="/maintenance" element={<Maintenance />} />
-
-        {/* All other routes will be added here as pages are rebuilt */}
-        <Route path="*" element={<Landing />} />
-=======
         {/* Login page */}
         <Route path="/login" element={<Login />} />
 
@@ -47,15 +37,10 @@ export default function App() {
               <Route path="/organization" element={<OrganizationSetup />} />
             </Route>
 
-<<<<<<< HEAD
-            <Route path="/assets" element={<Placeholder name="Asset Registry" />} />
-            <Route path="/allocations" element={<Allocations />} />
-=======
             <Route path="/assets" element={<Assets />} />
-            <Route path="/allocations" element={<Placeholder name="Allocation & Transfer" />} />
->>>>>>> 3a7736747c159432b3100c6c2ce9086514b6dd9e
+            <Route path="/allocations" element={<Allocations />} />
             <Route path="/bookings" element={<Placeholder name="Resource Booking" />} />
-            <Route path="/maintenance" element={<Placeholder name="Maintenance Tickets" />} />
+            <Route path="/maintenance" element={<Maintenance />} />
             <Route path="/audits" element={<Placeholder name="Audit Cycle Verification" />} />
             <Route path="/reports" element={<Placeholder name="Reports & Analytics" />} />
             <Route path="/notifications" element={<Placeholder name="Activity Logs & Notifications" />} />
@@ -64,7 +49,6 @@ export default function App() {
 
         {/* Fallback to Dashboard (will auto-redirect to Login if unauthenticated) */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
->>>>>>> df78c75a55f9b963f0b8815f7f473203cb774c04
       </Routes>
     </BrowserRouter>
   );

@@ -40,19 +40,9 @@ export default {
         "border-strong": "rgb(var(--border-strong) / <alpha-value>)",
         "muted-foreground-2": "rgb(var(--muted-foreground-2) / <alpha-value>)",
         card: {
-<<<<<<< HEAD
-          DEFAULT: "oklch(var(--card) / <alpha-value>)",
-          foreground: "oklch(var(--card-foreground) / <alpha-value>)",
-          hover: "oklch(var(--card-hover) / <alpha-value>)",
-        },
-        border: {
-          DEFAULT: "oklch(var(--border) / <alpha-value>)",
-          strong: "oklch(var(--border-strong) / <alpha-value>)",
-=======
           DEFAULT: "rgb(var(--card) / <alpha-value>)",
-          foreground: "rgb(var(--foreground) / <alpha-value>)",
+          foreground: "rgb(var(--card-foreground, var(--foreground)) / <alpha-value>)",
           hover: "rgb(var(--card-hover) / <alpha-value>)",
->>>>>>> df78c75a55f9b963f0b8815f7f473203cb774c04
         },
         popover: {
           DEFAULT: "rgb(var(--popover) / <alpha-value>)",

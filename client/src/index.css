@@ -12,104 +12,98 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ── Toast fade-in (used by components/shared/Toast.jsx) ── */
+/* ── Keyframe animations (must be top-level, outside @layer) ── */
 @keyframes toast-fade-in {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes draw-scribble {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ── Animation classes ── */
 .animate-fade-in {
   animation: toast-fade-in 160ms ease forwards;
 }
 
-/* ── Scribble SVG animation used in Hero headline ── */
-@layer utilities {
-  @keyframes draw-scribble {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
+.animate-draw-scribble {
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  animation: draw-scribble 2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+}
 
-  .animate-draw-scribble {
-    stroke-dasharray: 800;
-    stroke-dashoffset: 800;
-    animation: draw-scribble 2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
-  }
+/* ── Scroll-triggered reveal animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-  /* ── Scroll-triggered reveal animations ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  }
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.96) translateY(16px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
   .reveal-scale {
-    opacity: 0;
-    transform: scale(0.96) translateY(16px);
-    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .reveal-scale.visible {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: none;
+    transition: none;
   }
+}
 
-  /* Respect reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .reveal,
-    .reveal-scale {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
+/* ── Background utilities ── */
+.bg-hero-to-page {
+  background: linear-gradient(to bottom, rgba(15,23,42,0.04) 0%, transparent 100%);
+}
 
-  /* ── Premium background utilities ── */
-  .bg-hero-to-page {
-    background: linear-gradient(to bottom, rgba(15,23,42,0.04) 0%, transparent 100%);
-  }
+.bg-dot-grid {
+  background-image: radial-gradient(circle, rgba(79,70,229,0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
 
-  /* Very subtle dot grid pattern */
-  .bg-dot-grid {
-    background-image: radial-gradient(circle, rgba(79,70,229,0.07) 1px, transparent 1px);
-    background-size: 28px 28px;
-  }
-
-  /* Noise texture overlay */
-  .noise-overlay::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0.025;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-    pointer-events: none;
-  }
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  pointer-events: none;
 }
 
 /* ── RGB Design Tokens (design.md v2) ── */
 @layer base {
-  /* Light mode (default — used by the landing page) */
+  /* Light mode (default) */
   :root {
-    --background: 248 250 252;   /* #F8FAFC */
-    --foreground: 15 23 42;       /* #0F172A */
-    --card: 255 255 255;          /* #FFFFFF */
-    --popover: 255 255 255;       /* #FFFFFF */
-    --border: 226 232 240;        /* #E2E8F0 */
-    --input: 226 232 240;         /* #E2E8F0 */
-    --muted: 241 245 249;         /* #F1F5F9 */
-    --muted-foreground: 100 116 139; /* #64748B */
-
-    --ring: 79 70 229;            /* #4F46E5 */
-    --primary: 79 70 229;         /* #4F46E5 */
-    --primary-foreground: 255 255 255; /* #FFFFFF */
-
-    /* Status colors */
+    --background: 248 250 252;
+    --foreground: 15 23 42;
+    --card: 255 255 255;
+    --popover: 255 255 255;
+    --border: 226 232 240;
+    --input: 226 232 240;
+    --muted: 241 245 249;
+    --muted-foreground: 100 116 139;
+    --ring: 79 70 229;
+    --primary: 79 70 229;
+    --primary-foreground: 255 255 255;
     --success: 34 197 94;
     --info: 59 130 246;
     --warning: 234 179 8;
@@ -120,82 +114,41 @@ html {
     --pop: 56 189 248;
   }
 
-<<<<<<< HEAD
-  /*
-   * Dark mode — design.md v2 (Vercel-reference)
+  /* Dark mode — design.md v2 (Vercel-reference)
    * Pure black canvas, grayscale surfaces, hairline borders.
-   * Status dots are the ONLY color — see lib/tokens.js
+   * Status dots are the ONLY color.
    */
   .dark {
-    /* §2.1 Base palette */
-    --background:        0.04 0 0;   /* #000000 — pure black canvas */
-    --surface:           0.07 0 0;   /* #0A0A0A — sidebar / topbar */
-    --card:              0.10 0 0;   /* #111111 — card / panel fill */
-    --card-hover:        0.12 0 0;   /* #161616 — card interactive hover */
-    --card-foreground:   0.93 0 0;   /* #EDEDED */
-    --popover:           0.12 0 0;   /* #171717 — dropdowns, dialogs */
-    --border:            0.17 0 0;   /* #232323 — hairline border */
-    --border-strong:     0.22 0 0;   /* #2E2E2E — active item outline */
-    --foreground:        0.93 0 0;   /* #EDEDED — primary text */
-    --muted-foreground:  0.55 0 0;   /* #888888 — secondary text */
-    --muted-foreground-2: 0.38 0 0;  /* #5C5C5C — tertiary / disabled */
-    --input:             0.17 0 0;
-    --muted:             0.17 0 0;
-
-    /* §2.2 Primary = contrast (off-white fill, near-black text) */
-    --primary:           0.93 0 0;   /* #EDEDED — off-white button fill */
-    --primary-foreground: 0.07 0 0;  /* #0A0A0A — near-black text on it */
-    --ring:              0.93 0 0;   /* white focus ring at low opacity */
-
-    /* §2.3 Status colors — the ONLY hue allowed */
-    --success:      0.72 0.19 155;   /* #3FBA6D */
-    --info:         0.60 0.16 240;   /* #4B8FE0 */
-    --warning:      0.74 0.15 75;    /* #D9A441 */
-    --attention:    0.68 0.16 45;    /* #D97B3F */
-    --danger:       0.60 0.17 15;    /* #DB5A5A */
-    --damaged:      0.52 0.19 305;   /* #A25AC7 */
-    --neutral-state: 0.48 0 0;       /* #6E6E6E */
-    --pop: 0.78 0.14 200;
-=======
-  /* Dark mode — used by the app shell (design.md v2 §2.1) */
-  .dark {
-    --background: 0 0 0;          /* #000000 — pure black canvas */
-    --surface: 10 10 10;          /* #0A0A0A — sidebar/topbar */
-    --card: 17 17 17;             /* #111111 — card fill */
-    --card-hover: 22 22 22;       /* #161616 — card hover */
-    --popover: 23 23 23;          /* #171717 — dialogs/dropdowns */
-    --border: 35 35 35;           /* #232323 — hairline border */
-    --border-strong: 46 46 46;    /* #2E2E2E — active outline */
-    --foreground: 237 237 237;    /* #EDEDED — primary text */
-    --muted-foreground: 136 136 136; /* #888888 — secondary text */
-    --muted-foreground-2: 92 92 92;  /* #5C5C5C — tertiary/disabled */
-
-    --input: 35 35 35;            /* same as border */
-    --muted: 22 22 22;            /* same as card-hover */
-
-    /* Primary = off-white fill, near-black text (§2.2 — no brand hue) */
-    --primary: 237 237 237;       /* #EDEDED */
-    --primary-foreground: 10 10 10; /* #0A0A0A */
-    --ring: 255 255 255;          /* white focus ring */
-
-    /* Status colors — the ONLY color in the UI (§2.3) */
-    --success: 63 186 109;        /* #3FBA6D */
-    --info: 75 143 224;           /* #4B8FE0 */
-    --warning: 217 164 65;        /* #D9A441 */
-    --attention: 217 123 63;      /* #D97B3F */
-    --danger: 219 90 90;          /* #DB5A5A */
-    --damaged: 162 90 199;        /* #A25AC7 */
-    --neutral-state: 110 110 110; /* #6E6E6E */
+    --background: 0 0 0;
+    --surface: 10 10 10;
+    --card: 17 17 17;
+    --card-hover: 22 22 22;
+    --card-foreground: 237 237 237;
+    --popover: 23 23 23;
+    --border: 35 35 35;
+    --border-strong: 46 46 46;
+    --foreground: 237 237 237;
+    --muted-foreground: 136 136 136;
+    --muted-foreground-2: 92 92 92;
+    --input: 35 35 35;
+    --muted: 22 22 22;
+    --primary: 237 237 237;
+    --primary-foreground: 10 10 10;
+    --ring: 255 255 255;
+    --success: 63 186 109;
+    --info: 75 143 224;
+    --warning: 217 164 65;
+    --attention: 217 123 63;
+    --danger: 219 90 90;
+    --damaged: 162 90 199;
+    --neutral-state: 110 110 110;
     --pop: 75 143 224;
->>>>>>> df78c75a55f9b963f0b8815f7f473203cb774c04
   }
-}
 
-/* ── Base element resets ── */
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
