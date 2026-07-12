@@ -185,7 +185,7 @@ export default function Bookings() {
     <div className="p-8 max-w-7xl mx-auto text-slate-100 min-h-screen">
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-200">
+        <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-sky-300">
           Resource Booking
         </h1>
         <p className="text-slate-400 text-sm mt-1">
@@ -219,7 +219,7 @@ export default function Bookings() {
         <select
           value={selectedAssetId}
           onChange={(e) => setSelectedAssetId(e.target.value)}
-          className="w-full max-w-xl px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none cursor-pointer transition-colors"
+          className="w-full max-w-xl px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none cursor-pointer transition-colors"
         >
           <option value="">Choose a bookable resource (e.g. conference room, projector)...</option>
           {bookableAssets.map((asset) => (
@@ -249,7 +249,7 @@ export default function Bookings() {
                     setBookingForm({ ...bookingForm, startTime: e.target.value });
                     setConflictSlot(null);
                   }}
-                  className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                  className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
                 />
               </div>
 
@@ -263,7 +263,7 @@ export default function Bookings() {
                     setBookingForm({ ...bookingForm, endTime: e.target.value });
                     setConflictSlot(null);
                   }}
-                  className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                  className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
                 />
               </div>
 
@@ -286,7 +286,7 @@ export default function Bookings() {
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-md active:scale-95"
+                className="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all shadow-md active:scale-95"
               >
                 Confirm Reservation
               </button>
@@ -299,7 +299,7 @@ export default function Bookings() {
 
             {loadingSchedule ? (
               <div className="py-12 flex justify-center">
-                <div className="w-8 h-8 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+                <div className="w-8 h-8 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
               </div>
             ) : existingBookings.length === 0 ? (
               <div className="text-center py-12 border border-dashed border-slate-800 rounded-xl">
@@ -320,7 +320,7 @@ export default function Bookings() {
                     </div>
                     <div className="text-right text-xs">
                       <span className="text-slate-500">Booked by</span>
-                      <p className="font-medium text-violet-400 mt-0.5">{b.employee?.name}</p>
+                      <p className="font-medium text-indigo-400 mt-0.5">{b.employee?.name}</p>
                     </div>
                   </div>
                 ))}
@@ -338,7 +338,7 @@ export default function Bookings() {
 
         {loadingMyBookings && userBookings.length === 0 ? (
           <div className="py-12 flex justify-center">
-            <div className="w-8 h-8 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+            <div className="w-8 h-8 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
           </div>
         ) : userBookings.length === 0 ? (
           <div className="text-center py-16 border border-dashed border-slate-800 rounded-xl">
@@ -361,7 +361,7 @@ export default function Bookings() {
                 {userBookings.map((b) => (
                   <tr key={b.id} className="hover:bg-slate-800/15 transition-colors">
                     <td className="px-4 py-3">
-                      <span className="font-bold text-violet-400 block text-xs">{b.asset?.tag}</span>
+                      <span className="font-bold text-indigo-400 block text-xs">{b.asset?.tag}</span>
                       <span className="text-slate-200 font-medium">{b.asset?.name}</span>
                     </td>
                     <td className="px-4 py-3 text-slate-300">{b.employee?.name}</td>

@@ -50,7 +50,7 @@ export default function Notifications() {
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-200">
+          <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-sky-300">
             Inbox Notifications
           </h1>
           <p className="text-slate-400 text-sm mt-1">
@@ -81,7 +81,7 @@ export default function Notifications() {
       <div className="bg-slate-900/40 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
         {loading && notifications.length === 0 ? (
           <div className="py-20 flex justify-center">
-            <div className="w-10 h-10 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+            <div className="w-10 h-10 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
           </div>
         ) : notifications.length === 0 ? (
           <div className="text-center py-20 text-slate-500">
@@ -97,7 +97,7 @@ export default function Notifications() {
                 key={n.id}
                 onClick={() => handleMarkAsRead(n.id, n.isRead)}
                 className={`p-5 flex items-start justify-between gap-4 transition-colors cursor-pointer ${
-                  !n.isRead ? 'bg-violet-600/5 hover:bg-violet-600/10' : 'hover:bg-slate-800/10'
+                  !n.isRead ? 'bg-indigo-600/5 hover:bg-indigo-600/10' : 'hover:bg-slate-800/10'
                 }`}
               >
                 <div className="space-y-1">
@@ -109,7 +109,7 @@ export default function Notifications() {
                   </span>
                 </div>
                 {!n.isRead && (
-                  <span className="w-2.5 h-2.5 bg-violet-500 rounded-full shrink-0 mt-1.5" />
+                  <span className="w-2.5 h-2.5 bg-indigo-500 rounded-full shrink-0 mt-1.5" />
                 )}
               </div>
             ))}

@@ -8,9 +8,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', '"Geist Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        // PRIMARY: Plus Jakarta Sans — body text, navbar, buttons, subheadings, bold headlines
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        // ACCENT SERIF: Playfair Display — exclusively for italic accent words inside headings
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        mono: ['"Geist Mono"', '"JetBrains Mono"', 'monospace'],
+        mono: ['"JetBrains Mono"', 'monospace'],
       },
       animation: {
         'subtle-zoom': 'subtle-zoom 25s ease-out infinite alternate',

@@ -1,6 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/geist@1.0.3/dist/fonts/geist-sans/style.css');
-@import url('https://cdn.jsdelivr.net/npm/geist@1.0.3/dist/fonts/geist-mono/style.css');
+/* ============================================================
+   AssetFlow Design System — index.css
+   Primary Font:  Plus Jakarta Sans (font-sans)
+   Accent Serif:  Playfair Display (font-serif, italic only in headings)
+   Both loaded via Google Fonts in index.html
+   ============================================================ */
 
 @tailwind base;
 @tailwind components;
@@ -10,6 +13,7 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Scribble SVG animation used in Hero headline ── */
 @layer utilities {
   @keyframes draw-scribble {
     to {
@@ -24,8 +28,11 @@ html {
   }
 }
 
+/* ── OKLCH Design Tokens ── */
 @layer base {
+  /* Light mode (default — used by the landing page) */
   :root {
+    /* Off-White: #F8FAFC */
     --background: 0.99 0 0;
     --foreground: 0.145 0 0;
     --card: 1 0 0;
@@ -35,11 +42,13 @@ html {
     --input: 0.90 0 0;
     --muted: 0.96 0 0;
     --muted-foreground: 0.46 0 0;
-    --ring: 0.62 0.19 275;
-    
-    --primary: 0.62 0.19 275;
+
+    /* Primary Indigo: #4F46E5 */
+    --ring: 0.54 0.22 284;
+    --primary: 0.54 0.22 284;
     --primary-foreground: 0.99 0 0;
-    
+
+    /* Status colors */
     --success: 0.72 0.19 155;
     --info: 0.62 0.19 255;
     --warning: 0.78 0.16 75;
@@ -47,10 +56,13 @@ html {
     --danger: 0.62 0.20 15;
     --damaged: 0.55 0.22 320;
     --neutral-state: 0.62 0 0;
+    /* Sky Blue: #38BDF8 */
     --pop: 0.78 0.14 200;
   }
-  
+
+  /* Dark mode — used by the app shell (dashboard, auth etc) */
   .dark {
+    /* Deep Navy: #020617 */
     --background: 0.145 0 0;
     --foreground: 0.96 0 0;
     --card: 0.19 0 0;
@@ -60,11 +72,13 @@ html {
     --input: 0.28 0 0;
     --muted: 0.23 0 0;
     --muted-foreground: 0.64 0 0;
-    --ring: 0.62 0.19 275;
-    
-    --primary: 0.62 0.19 275;
+
+    /* Primary Indigo (same across modes) */
+    --ring: 0.54 0.22 284;
+    --primary: 0.54 0.22 284;
     --primary-foreground: 0.99 0 0;
 
+    /* Status colors */
     --success: 0.72 0.19 155;
     --info: 0.62 0.19 255;
     --warning: 0.78 0.16 75;
@@ -76,6 +90,7 @@ html {
   }
 }
 
+/* ── Base element resets ── */
 @layer base {
   * {
     @apply border-border;

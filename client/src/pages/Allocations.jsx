@@ -274,7 +274,7 @@ export default function Allocations() {
     <div className="p-8 max-w-7xl mx-auto text-slate-100 min-h-screen">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-200">
+        <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-sky-300">
           Allocations & Transfers
         </h1>
         <p className="text-slate-400 text-sm mt-1">
@@ -306,7 +306,7 @@ export default function Allocations() {
           onClick={() => setActiveTab('allocations')}
           className={`px-5 py-3 text-sm font-semibold border-b-2 transition-all duration-200 ${
             activeTab === 'allocations'
-              ? 'border-violet-500 text-violet-400 bg-violet-500/5'
+              ? 'border-indigo-500 text-indigo-400 bg-indigo-500/5'
               : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/30'
           } rounded-t-xl`}
         >
@@ -316,7 +316,7 @@ export default function Allocations() {
           onClick={() => setActiveTab('transfers')}
           className={`px-5 py-3 text-sm font-semibold border-b-2 transition-all duration-200 ${
             activeTab === 'transfers'
-              ? 'border-violet-500 text-violet-400 bg-violet-500/5'
+              ? 'border-indigo-500 text-indigo-400 bg-indigo-500/5'
               : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/30'
           } rounded-t-xl`}
         >
@@ -341,7 +341,7 @@ export default function Allocations() {
                       setAllocateForm({ ...allocateForm, assetId: e.target.value });
                       setConflictData(null);
                     }}
-                    className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none cursor-pointer"
+                    className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none cursor-pointer"
                   >
                     <option value="">Select Available Asset</option>
                     {assets.map((asset) => (
@@ -362,7 +362,7 @@ export default function Allocations() {
                         value="Employee"
                         checked={allocateForm.holderType === 'Employee'}
                         onChange={() => setAllocateForm({ ...allocateForm, holderType: 'Employee', departmentId: '' })}
-                        className="text-violet-600 focus:ring-0 cursor-pointer bg-slate-950 border-slate-800"
+                        className="text-indigo-600 focus:ring-0 cursor-pointer bg-slate-950 border-slate-800"
                       />
                       Individual Employee
                     </label>
@@ -373,7 +373,7 @@ export default function Allocations() {
                         value="Department"
                         checked={allocateForm.holderType === 'Department'}
                         onChange={() => setAllocateForm({ ...allocateForm, holderType: 'Department', employeeId: '' })}
-                        className="text-violet-600 focus:ring-0 cursor-pointer bg-slate-950 border-slate-800"
+                        className="text-indigo-600 focus:ring-0 cursor-pointer bg-slate-950 border-slate-800"
                       />
                       Department
                     </label>
@@ -383,7 +383,7 @@ export default function Allocations() {
                     <select
                       value={allocateForm.employeeId}
                       onChange={(e) => setAllocateForm({ ...allocateForm, employeeId: e.target.value })}
-                      className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none cursor-pointer"
+                      className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none cursor-pointer"
                     >
                       <option value="">Select Employee</option>
                       {employees.map((emp) => (
@@ -394,7 +394,7 @@ export default function Allocations() {
                     <select
                       value={allocateForm.departmentId}
                       onChange={(e) => setAllocateForm({ ...allocateForm, departmentId: e.target.value })}
-                      className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none cursor-pointer"
+                      className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none cursor-pointer"
                     >
                       <option value="">Select Department</option>
                       {departments.map((dept) => (
@@ -410,7 +410,7 @@ export default function Allocations() {
                     type="date"
                     value={allocateForm.expectedReturnDate}
                     onChange={(e) => setAllocateForm({ ...allocateForm, expectedReturnDate: e.target.value })}
-                    className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                    className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
                   />
                 </div>
 
@@ -429,7 +429,7 @@ export default function Allocations() {
                     <button
                       type="button"
                       onClick={handleRequestTransfer}
-                      className="w-full py-2 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-lg transition-colors border border-violet-500 text-center"
+                      className="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg transition-colors border border-indigo-500 text-center"
                     >
                       Request Transfer
                     </button>
@@ -438,7 +438,7 @@ export default function Allocations() {
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-violet-600/10 active:scale-95"
+                  className="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-indigo-600/10 active:scale-95"
                 >
                   Allocate Asset
                 </button>
@@ -451,7 +451,7 @@ export default function Allocations() {
               
               {loading && activeAllocations.length === 0 ? (
                 <div className="py-12 flex justify-center">
-                  <div className="w-8 h-8 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+                  <div className="w-8 h-8 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
                 </div>
               ) : activeAllocations.length === 0 ? (
                 <div className="text-center py-16 border border-dashed border-slate-800 rounded-xl">
@@ -473,7 +473,7 @@ export default function Allocations() {
                       {activeAllocations.map((alloc) => (
                         <tr key={alloc.id} className="hover:bg-slate-800/15 transition-colors">
                           <td className="px-4 py-3">
-                            <span className="font-bold text-violet-400 block text-xs">{alloc.asset.tag}</span>
+                            <span className="font-bold text-indigo-400 block text-xs">{alloc.asset.tag}</span>
                             <span className="text-slate-200 font-medium">{alloc.asset.name}</span>
                           </td>
                           <td className="px-4 py-3">
@@ -528,7 +528,7 @@ export default function Allocations() {
 
             {loading && transfers.length === 0 ? (
               <div className="py-12 flex justify-center">
-                <div className="w-8 h-8 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+                <div className="w-8 h-8 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
               </div>
             ) : transfers.length === 0 ? (
               <div className="text-center py-16 border border-dashed border-slate-800 rounded-xl">
@@ -553,7 +553,7 @@ export default function Allocations() {
                       return (
                         <tr key={tr.id} className="hover:bg-slate-800/15 transition-colors">
                           <td className="px-4 py-3">
-                            <span className="font-bold text-violet-400 block text-xs">{tr.allocation?.asset?.tag}</span>
+                            <span className="font-bold text-indigo-400 block text-xs">{tr.allocation?.asset?.tag}</span>
                             <span className="text-slate-200 font-medium">{tr.allocation?.asset?.name}</span>
                           </td>
                           <td className="px-4 py-3 text-slate-300">{oldHolder}</td>
@@ -613,7 +613,7 @@ export default function Allocations() {
               value={conditionNotes}
               onChange={(e) => setConditionNotes(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none placeholder-slate-600 resize-none"
+              className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none placeholder-slate-600 resize-none"
             />
           </div>
           <div className="flex justify-end gap-3 pt-2">
@@ -626,7 +626,7 @@ export default function Allocations() {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-violet-600/10"
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-indigo-600/10"
             >
               Record Return
             </button>
@@ -661,7 +661,7 @@ export default function Allocations() {
             </button>
             <button
               onClick={handleApproveTransfer}
-              className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all"
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all"
             >
               Confirm Approval
             </button>

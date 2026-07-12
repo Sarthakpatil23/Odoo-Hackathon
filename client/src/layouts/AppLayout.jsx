@@ -2,13 +2,11 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 // ─── Nav item definitions ──────────────────────────────────────────────────────
-// Note: Page-level content will differ by role later; visibility rules below are
-// a first pass at role-based sidebar filtering only.
 const NAV_ITEMS = [
   {
     label: 'Dashboard',
     to: '/dashboard',
-    allowedRoles: null, // visible to all roles
+    allowedRoles: null,
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
@@ -19,7 +17,7 @@ const NAV_ITEMS = [
   {
     label: 'Assets',
     to: '/assets',
-    allowedRoles: null, // visible to all roles
+    allowedRoles: null,
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
@@ -30,7 +28,7 @@ const NAV_ITEMS = [
   {
     label: 'Allocations & Transfers',
     to: '/allocations',
-    allowedRoles: null, // visible to all roles
+    allowedRoles: null,
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
@@ -41,7 +39,7 @@ const NAV_ITEMS = [
   {
     label: 'Resource Booking',
     to: '/bookings',
-    allowedRoles: null, // visible to all roles
+    allowedRoles: null,
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
@@ -52,7 +50,7 @@ const NAV_ITEMS = [
   {
     label: 'Maintenance',
     to: '/maintenance',
-    allowedRoles: null, // visible to all roles
+    allowedRoles: null,
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
@@ -65,7 +63,7 @@ const NAV_ITEMS = [
   {
     label: 'Audit Cycles',
     to: '/audits',
-    allowedRoles: ['Admin', 'AssetManager'], // Admin and AssetManager only
+    allowedRoles: ['Admin', 'AssetManager'],
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
@@ -76,7 +74,7 @@ const NAV_ITEMS = [
   {
     label: 'Organization Setup',
     to: '/organization',
-    allowedRoles: ['Admin'], // Admin only
+    allowedRoles: ['Admin'],
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
@@ -87,7 +85,7 @@ const NAV_ITEMS = [
   {
     label: 'Reports & Analytics',
     to: '/reports',
-    allowedRoles: null, // visible to all roles
+    allowedRoles: null,
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
@@ -98,7 +96,7 @@ const NAV_ITEMS = [
   {
     label: 'Activity Logs & Notifications',
     to: '/notifications',
-    allowedRoles: null, // visible to all roles
+    allowedRoles: null,
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
@@ -108,12 +106,12 @@ const NAV_ITEMS = [
   },
 ];
 
-// Role badge color map
+// ── Role badge color map (design tokens: indigo primary, others semantic) ──
 const roleBadgeClass = {
-  Admin: 'bg-violet-500/20 text-violet-300 border-violet-500/30',
-  AssetManager: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+  Admin:          'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
+  AssetManager:   'bg-sky-500/20 text-sky-300 border-sky-500/30',
   DepartmentHead: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-  Employee: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+  Employee:       'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
 };
 
 export default function AppLayout() {
@@ -130,22 +128,30 @@ export default function AppLayout() {
   );
 
   return (
-    <div className="flex h-screen bg-slate-950 text-slate-100 overflow-hidden">
+    /*
+     * The app shell (dashboard + all protected pages) explicitly uses the
+     * Deep Navy dark theme. The `dark` class is applied here — NOT on <html>
+     * — so the public landing page remains light.
+     */
+    <div className="dark flex h-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+
       {/* ── Sidebar ── */}
       <aside className="w-64 shrink-0 flex flex-col bg-slate-900/70 border-r border-slate-800 overflow-y-auto">
-        {/* Brand */}
+
+        {/* Brand logo — indigo-to-sky gradient per design.md */}
         <div className="flex items-center gap-3 px-5 py-5 border-b border-slate-800">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center shadow-md shadow-violet-500/20 shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-sky-400 flex items-center justify-center shadow-md shadow-indigo-500/20 shrink-0">
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <span className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-200">
+          {/* Brand name: indigo-to-sky gradient text */}
+          <span className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-sky-300">
             AssetFlow
           </span>
         </div>
 
-        {/* Nav */}
+        {/* Nav links */}
         <nav className="flex-1 px-3 py-4 space-y-0.5">
           {visibleNavItems.map((item) => (
             <NavLink
@@ -155,7 +161,8 @@ export default function AppLayout() {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                   isActive
-                    ? 'bg-violet-600/20 text-violet-300 border border-violet-500/25'
+                    /* Active: indigo-600/20 background, indigo-300 text, indigo border */
+                    ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/25'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
                 }`
               }
@@ -169,8 +176,8 @@ export default function AppLayout() {
         {/* User footer */}
         <div className="border-t border-slate-800 px-4 py-4">
           <div className="flex items-center gap-3 mb-3">
-            {/* Avatar */}
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-violet-600 to-indigo-500 flex items-center justify-center text-white text-sm font-bold shrink-0">
+            {/* Avatar: indigo-to-sky gradient */}
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-600 to-sky-400 flex items-center justify-center text-white text-sm font-bold shrink-0">
               {user?.name?.[0]?.toUpperCase() || '?'}
             </div>
             <div className="min-w-0">
@@ -184,6 +191,7 @@ export default function AppLayout() {
               </span>
             </div>
           </div>
+
           <button
             id="logout-button"
             onClick={handleLogout}
@@ -198,7 +206,7 @@ export default function AppLayout() {
         </div>
       </aside>
 
-      {/* ── Main content ── */}
+      {/* ── Main content area ── */}
       <main className="flex-1 overflow-y-auto">
         <Outlet />
       </main>

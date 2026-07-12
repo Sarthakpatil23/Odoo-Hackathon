@@ -14,7 +14,7 @@ export default function Unauthorized() {
         <p className="text-slate-400 mb-6">You don&apos;t have permission to view this page.</p>
         <Link
           to="/dashboard"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-all"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all"
         >
           Go to Dashboard
         </Link>
