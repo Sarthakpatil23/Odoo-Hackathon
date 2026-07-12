@@ -27,12 +27,12 @@ import {
   Trash2,
 } from 'lucide-react';
 
-import { useAuth } from '../../context/AuthContext';
-import { useDepartments } from '../../hooks/useDepartments';
-import { StatusDot } from '../../components/shared/StatusDot';
-import { EmptyState } from '../../components/shared/EmptyState';
-import { Skeleton } from '../../components/shared/Skeleton';
-import { useToast } from '../../components/shared/Toast';
+import { useAuth } from '../context/AuthContext';
+import { useDepartments } from '../hooks/useDepartments';
+import { StatusDot } from '../components/shared/StatusDot';
+import { EmptyState } from '../components/shared/EmptyState';
+import { Skeleton } from '../components/shared/Skeleton';
+import { useToast } from '../components/shared/Toast';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Seed data
