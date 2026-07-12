@@ -10,10 +10,10 @@ export function ProtectedRoute() {
 
   if (loading) {
     return (
-      <div className="dark min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading session...</p>
+      <div className="dark min-h-screen bg-background flex items-center justify-center font-sans">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border border-border border-t-foreground rounded-full animate-spin" />
+          <p className="text-muted-foreground text-xs font-mono">loading session...</p>
         </div>
       </div>
     );
@@ -37,8 +37,8 @@ export function RoleProtectedRoute({ allowedRoles }) {
 
   if (loading) {
     return (
-      <div className="dark min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
+      <div className="dark min-h-screen bg-background flex items-center justify-center font-sans">
+        <div className="w-8 h-8 border border-border border-t-foreground rounded-full animate-spin" />
       </div>
     );
   }

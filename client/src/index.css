@@ -1,8 +1,7 @@
 /* ============================================================
    AssetFlow Design System — index.css
-   Primary Font:  Plus Jakarta Sans (font-sans)
-   Accent Serif:  Playfair Display (font-serif, italic only in headings)
-   Both loaded via Google Fonts in index.html
+   Primary Font:  Geist Sans (font-sans) — matches Vercel reference
+   Monospace:     Geist Mono (font-mono) — asset tags, IDs
    ============================================================ */
 
 @tailwind base;
@@ -11,6 +10,15 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* ── Toast fade-in (used by components/shared/Toast.jsx) ── */
+@keyframes toast-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: toast-fade-in 160ms ease forwards;
 }
 
 /* ── Scribble SVG animation used in Hero headline ── */
@@ -84,38 +92,35 @@ html {
   }
 }
 
-/* ── OKLCH Design Tokens ── */
+/* ── RGB Design Tokens (design.md v2) ── */
 @layer base {
   /* Light mode (default — used by the landing page) */
   :root {
-    /* Off-White: #F8FAFC */
-    --background: 0.99 0 0;
-    --foreground: 0.145 0 0;
-    --card: 1 0 0;
-    --card-foreground: 0.145 0 0;
-    --popover: 1 0 0;
-    --border: 0.90 0 0;
-    --input: 0.90 0 0;
-    --muted: 0.96 0 0;
-    --muted-foreground: 0.46 0 0;
+    --background: 248 250 252;   /* #F8FAFC */
+    --foreground: 15 23 42;       /* #0F172A */
+    --card: 255 255 255;          /* #FFFFFF */
+    --popover: 255 255 255;       /* #FFFFFF */
+    --border: 226 232 240;        /* #E2E8F0 */
+    --input: 226 232 240;         /* #E2E8F0 */
+    --muted: 241 245 249;         /* #F1F5F9 */
+    --muted-foreground: 100 116 139; /* #64748B */
 
-    /* Primary Indigo: #4F46E5 */
-    --ring: 0.54 0.22 284;
-    --primary: 0.54 0.22 284;
-    --primary-foreground: 0.99 0 0;
+    --ring: 79 70 229;            /* #4F46E5 */
+    --primary: 79 70 229;         /* #4F46E5 */
+    --primary-foreground: 255 255 255; /* #FFFFFF */
 
     /* Status colors */
-    --success: 0.72 0.19 155;
-    --info: 0.62 0.19 255;
-    --warning: 0.78 0.16 75;
-    --attention: 0.72 0.18 45;
-    --danger: 0.62 0.20 15;
-    --damaged: 0.55 0.22 320;
-    --neutral-state: 0.62 0 0;
-    /* Sky Blue: #38BDF8 */
-    --pop: 0.78 0.14 200;
+    --success: 34 197 94;
+    --info: 59 130 246;
+    --warning: 234 179 8;
+    --attention: 249 115 22;
+    --danger: 239 68 68;
+    --damaged: 168 85 247;
+    --neutral-state: 100 116 139;
+    --pop: 56 189 248;
   }
 
+<<<<<<< HEAD
   /*
    * Dark mode — design.md v2 (Vercel-reference)
    * Pure black canvas, grayscale surfaces, hairline borders.
@@ -151,6 +156,38 @@ html {
     --damaged:      0.52 0.19 305;   /* #A25AC7 */
     --neutral-state: 0.48 0 0;       /* #6E6E6E */
     --pop: 0.78 0.14 200;
+=======
+  /* Dark mode — used by the app shell (design.md v2 §2.1) */
+  .dark {
+    --background: 0 0 0;          /* #000000 — pure black canvas */
+    --surface: 10 10 10;          /* #0A0A0A — sidebar/topbar */
+    --card: 17 17 17;             /* #111111 — card fill */
+    --card-hover: 22 22 22;       /* #161616 — card hover */
+    --popover: 23 23 23;          /* #171717 — dialogs/dropdowns */
+    --border: 35 35 35;           /* #232323 — hairline border */
+    --border-strong: 46 46 46;    /* #2E2E2E — active outline */
+    --foreground: 237 237 237;    /* #EDEDED — primary text */
+    --muted-foreground: 136 136 136; /* #888888 — secondary text */
+    --muted-foreground-2: 92 92 92;  /* #5C5C5C — tertiary/disabled */
+
+    --input: 35 35 35;            /* same as border */
+    --muted: 22 22 22;            /* same as card-hover */
+
+    /* Primary = off-white fill, near-black text (§2.2 — no brand hue) */
+    --primary: 237 237 237;       /* #EDEDED */
+    --primary-foreground: 10 10 10; /* #0A0A0A */
+    --ring: 255 255 255;          /* white focus ring */
+
+    /* Status colors — the ONLY color in the UI (§2.3) */
+    --success: 63 186 109;        /* #3FBA6D */
+    --info: 75 143 224;           /* #4B8FE0 */
+    --warning: 217 164 65;        /* #D9A441 */
+    --attention: 217 123 63;      /* #D97B3F */
+    --danger: 219 90 90;          /* #DB5A5A */
+    --damaged: 162 90 199;        /* #A25AC7 */
+    --neutral-state: 110 110 110; /* #6E6E6E */
+    --pop: 75 143 224;
+>>>>>>> df78c75a55f9b963f0b8815f7f473203cb774c04
   }
 }
 

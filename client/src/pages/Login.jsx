@@ -1,0 +1,174 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { Card } from '../components/shared/Card';
+import { Button } from '../components/ui/button';
+import { Building2, Shield, User, Users } from 'lucide-react';
+
+export default function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleMockLogin = (role) => {
+    // Generate dummy token and user data matching selected role
+    const mockToken = `mock-token-${role.toLowerCase()}-${Date.now()}`;
+    const mockUser = {
+      id: `usr-${role.toLowerCase()}`,
+      name: `${role} User`,
+      email: `${role.toLowerCase()}@assetflow.com`,
+      role: role
+    };
+    
+    login(mockToken, mockUser);
+    navigate('/dashboard');
+  };
+
+  const handleCustomLogin = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError('Please fill in all fields.');
+      return;
+    }
+    // Custom login defaults to Admin role for simplicity
+    handleMockLogin('Admin');
+  };
+
+  return (
+    <div className="dark min-h-screen bg-background text-foreground flex flex-col justify-between selection:bg-white/10 selection:text-foreground relative overflow-hidden font-sans">
+      {/* Subtle radial white glow behind the content */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.02] rounded-full blur-[120px] pointer-events-none" />
+
+      {/* Top marketing nav */}
+      <header className="px-6 md:px-10 py-5 flex items-center justify-between border-b border-border bg-black/50 backdrop-blur-md z-10 shrink-0">
+        <div className="flex items-center gap-2">
+          <div className="h-5 w-5 bg-white text-black flex items-center justify-center font-bold text-xs rounded-sm">
+            AF
+          </div>
+          <span className="font-medium text-sm tracking-tight text-foreground">AssetFlow</span>
+        </div>
+        <div className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
+          <span className="hover:text-foreground cursor-pointer transition-colors">Features</span>
+          <span className="hover:text-foreground cursor-pointer transition-colors">Pricing</span>
+          <span className="hover:text-foreground cursor-pointer transition-colors">Docs</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={() => handleMockLogin('Employee')}>
+            Guest Access
+          </Button>
+          <Button variant="default" size="sm" onClick={() => handleMockLogin('Admin')}>
+            Deploy Now
+          </Button>
+        </div>
+      </header>
+
+      {/* Main hero & login card */}
+      <main className="flex-1 flex flex-col items-center justify-center px-6 py-12 z-10">
+        <div className="w-full max-w-[440px] space-y-8">
+          {/* Hero text */}
+          <div className="text-center space-y-2">
+            <div className="text-[10px] font-mono tracking-[0.2em] text-muted-foreground uppercase">
+              FOR MODERN ENTERPRISES
+            </div>
+            <h1 className="text-3xl md:text-4xl font-medium tracking-tight text-foreground">
+              Track every asset.<br />Manage every space.
+            </h1>
+          </div>
+
+          {/* Login Card */}
+          <Card className="bg-card/40 backdrop-blur-md p-6 border border-border rounded-lg space-y-6">
+            <form onSubmit={handleCustomLogin} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-muted-foreground" htmlFor="email">
+                  Email Address
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="name@company.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-black/50 border border-border focus:border-border-strong focus:ring-1 focus:ring-white/10 rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground-2 outline-none transition-all"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-muted-foreground" htmlFor="password">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-black/50 border border-border focus:border-border-strong focus:ring-1 focus:ring-white/10 rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground-2 outline-none transition-all"
+                />
+              </div>
+
+              {error && <p className="text-xs text-danger">{error}</p>}
+
+              <Button type="submit" variant="default" className="w-full">
+                Continue with Email
+              </Button>
+            </form>
+
+            <div className="relative flex py-1 items-center">
+              <div className="flex-grow border-t border-border"></div>
+              <span className="flex-shrink mx-4 text-[10px] font-mono text-muted-foreground-2 uppercase">
+                Or Quick Login (Testing)
+              </span>
+              <div className="flex-grow border-t border-border"></div>
+            </div>
+
+            {/* Quick login grid */}
+            <div className="grid grid-cols-2 gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => handleMockLogin('Admin')}
+                className="justify-start gap-2 text-xs"
+              >
+                <Shield size={12} className="text-muted-foreground" />
+                <span>Admin</span>
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => handleMockLogin('AssetManager')}
+                className="justify-start gap-2 text-xs"
+              >
+                <Building2 size={12} className="text-muted-foreground" />
+                <span>Asset Mgr</span>
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => handleMockLogin('DepartmentHead')}
+                className="justify-start gap-2 text-xs"
+              >
+                <Users size={12} className="text-muted-foreground" />
+                <span>Dept Head</span>
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => handleMockLogin('Employee')}
+                className="justify-start gap-2 text-xs"
+              >
+                <User size={12} className="text-muted-foreground" />
+                <span>Employee</span>
+              </Button>
+            </div>
+          </Card>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="px-6 py-5 text-center text-xs text-muted-foreground-2 border-t border-border bg-black/30 z-10 shrink-0">
+        © {new Date().getFullYear()} AssetFlow Inc. All rights reserved.
+      </footer>
+    </div>
+  );
+}
