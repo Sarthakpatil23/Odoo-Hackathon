@@ -18,7 +18,7 @@ import Assets from './pages/Assets';
 import Allocations from './pages/Allocations';
 import Bookings from './pages/Bookings';
 import Maintenance from './pages/Maintenance';
-import Organization from './pages/Organization';
+import OrganizationSetup from './pages/OrganizationSetup';
 import Audits from './pages/Audits';
 import Reports from './pages/Reports';
 import Notifications from './pages/Notifications';
@@ -72,7 +72,7 @@ export default function App() {
 
             {/* Admin only */}
             <Route element={<RoleProtectedRoute allowedRoles={['Admin']} />}>
-              <Route path="/organization" element={<Organization />} />
+              <Route path="/organization" element={<OrganizationSetup />} />
             </Route>
           </Route>
         </Route>

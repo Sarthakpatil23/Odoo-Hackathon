@@ -22,6 +22,11 @@ app.get('/api/health', (req, res) => {
 // Auth routes (public)
 app.use('/api/auth', authRoutes);
 
+// Org Setup routes (protected)
+app.use('/api/departments', require('./src/routes/departments'));
+app.use('/api/asset-categories', require('./src/routes/asset-categories'));
+app.use('/api/employees', require('./src/routes/employees'));
+
 // Protected test route — returns decoded token payload from req.user
 // Usage: GET /api/me with Authorization: Bearer <token>
 app.get('/api/me', authenticate, (req, res) => {
