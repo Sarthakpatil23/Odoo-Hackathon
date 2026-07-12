@@ -7,6 +7,7 @@ import OrganizationSetup from './pages/OrganizationSetup';
 import Allocations from './pages/Allocations';
 import Assets from './pages/Assets';
 import Maintenance from './pages/Maintenance';
+import Reports from './pages/Reports';
 import { ProtectedRoute, RoleProtectedRoute } from './components/ProtectedRoute';
 
 // Standard Under-Construction Placeholder for other operations
@@ -42,7 +43,7 @@ export default function App() {
             <Route path="/bookings" element={<Placeholder name="Resource Booking" />} />
             <Route path="/maintenance" element={<Maintenance />} />
             <Route path="/audits" element={<Placeholder name="Audit Cycle Verification" />} />
-            <Route path="/reports" element={<Placeholder name="Reports & Analytics" />} />
+            <Route path="/reports" element={<Reports />} />
             <Route path="/notifications" element={<Placeholder name="Activity Logs & Notifications" />} />
           </Route>
         </Route>
