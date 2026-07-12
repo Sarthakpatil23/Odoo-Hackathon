@@ -26,6 +26,62 @@ html {
     stroke-dashoffset: 800;
     animation: draw-scribble 2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
   }
+
+  /* ── Scroll-triggered reveal animations ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.96) translateY(16px);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-scale {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* ── Premium background utilities ── */
+  .bg-hero-to-page {
+    background: linear-gradient(to bottom, rgba(15,23,42,0.04) 0%, transparent 100%);
+  }
+
+  /* Very subtle dot grid pattern */
+  .bg-dot-grid {
+    background-image: radial-gradient(circle, rgba(79,70,229,0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Noise texture overlay */
+  .noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
 }
 
 /* ── OKLCH Design Tokens ── */
