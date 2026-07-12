@@ -27,6 +27,9 @@ app.use('/api/departments', require('./src/routes/departments'));
 app.use('/api/asset-categories', require('./src/routes/asset-categories'));
 app.use('/api/employees', require('./src/routes/employees'));
 app.use('/api/assets', require('./src/routes/assets'));
+app.use('/api/allocations', require('./src/routes/allocations'));
+app.use('/api/transfers', require('./src/routes/transfers'));
+app.use('/api/bookings', require('./src/routes/bookings'));
 
 // Protected test route — returns decoded token payload from req.user
 // Usage: GET /api/me with Authorization: Bearer <token>
