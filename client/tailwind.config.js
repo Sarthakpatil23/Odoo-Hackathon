@@ -4,11 +4,13 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', '"Geist Sans"', 'Inter', 'system-ui', 'sans-serif'],
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
+        mono: ['"Geist Mono"', '"JetBrains Mono"', 'monospace'],
       },
       animation: {
         'subtle-zoom': 'subtle-zoom 25s ease-out infinite alternate',
@@ -28,6 +30,37 @@ export default {
           'from': { opacity: '0' },
           'to': { opacity: '1' },
         },
+      },
+      colors: {
+        background: "oklch(var(--background) / <alpha-value>)",
+        foreground: "oklch(var(--foreground) / <alpha-value>)",
+        card: {
+          DEFAULT: "oklch(var(--card) / <alpha-value>)",
+          foreground: "oklch(var(--card-foreground) / <alpha-value>)",
+        },
+        popover: {
+          DEFAULT: "oklch(var(--popover) / <alpha-value>)",
+          foreground: "oklch(var(--foreground) / <alpha-value>)",
+        },
+        border: "oklch(var(--border) / <alpha-value>)",
+        input: "oklch(var(--input) / <alpha-value>)",
+        muted: {
+          DEFAULT: "oklch(var(--muted) / <alpha-value>)",
+          foreground: "oklch(var(--muted-foreground) / <alpha-value>)",
+        },
+        primary: {
+          DEFAULT: "oklch(var(--primary) / <alpha-value>)",
+          foreground: "oklch(var(--primary-foreground) / <alpha-value>)",
+        },
+        ring: "oklch(var(--ring) / <alpha-value>)",
+        success: "oklch(var(--success) / <alpha-value>)",
+        info: "oklch(var(--info) / <alpha-value>)",
+        warning: "oklch(var(--warning) / <alpha-value>)",
+        attention: "oklch(var(--attention) / <alpha-value>)",
+        danger: "oklch(var(--danger) / <alpha-value>)",
+        damaged: "oklch(var(--damaged) / <alpha-value>)",
+        "neutral-state": "oklch(var(--neutral-state) / <alpha-value>)",
+        pop: "oklch(var(--pop) / <alpha-value>)",
       },
     },
   },
