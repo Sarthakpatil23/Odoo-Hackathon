@@ -1,5 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './pages/Landing';
+<<<<<<< HEAD
+import Maintenance from './pages/Maintenance';
+=======
 import Login from './pages/Login';
 import AppLayout from './layouts/AppLayout';
 import Dashboard from './pages/Dashboard';
@@ -14,6 +17,7 @@ const Placeholder = ({ name }) => (
     <div className="text-xs text-muted-foreground-2">This module is under active development. Keep scanning other sections.</div>
   </div>
 );
+>>>>>>> df78c75a55f9b963f0b8815f7f473203cb774c04
 
 export default function App() {
   return (
@@ -22,6 +26,13 @@ export default function App() {
         {/* Public landing page */}
         <Route path="/" element={<Landing />} />
 
+<<<<<<< HEAD
+        {/* Maintenance Management — Kanban board (Screen 7) */}
+        <Route path="/maintenance" element={<Maintenance />} />
+
+        {/* All other routes will be added here as pages are rebuilt */}
+        <Route path="*" element={<Landing />} />
+=======
         {/* Login page */}
         <Route path="/login" element={<Login />} />
 
@@ -47,6 +58,7 @@ export default function App() {
 
         {/* Fallback to Dashboard (will auto-redirect to Login if unauthenticated) */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
+>>>>>>> df78c75a55f9b963f0b8815f7f473203cb774c04
       </Routes>
     </BrowserRouter>
   );
