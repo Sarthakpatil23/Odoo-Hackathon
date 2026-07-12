@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Bell, Inbox, AlertCircle, RefreshCw } from 'lucide-react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
@@ -8,10 +8,113 @@ import { EmptyState } from '../components/shared/EmptyState';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '../components/ui/table';
 import { cn } from '../lib/utils';
 
-/** Plain outline role badge matching design.md §6/§8 */
+// ─── MOCK DATASETS FOR TESTING ──────────────────────────────────────────────────
+const MOCK_NOTIFICATIONS = [
+  {
+    id: 'notif-1',
+    message: 'Laptop AF-0014 assigned to Priya Shah.',
+    type: 'info',
+    isRead: false,
+    createdAt: new Date(Date.now() - 2 * 60 * 1000).toISOString(), // 2m ago
+  },
+  {
+    id: 'notif-2',
+    message: 'Maintenance request AF-0055 approved.',
+    type: 'success',
+    isRead: false,
+    createdAt: new Date(Date.now() - 18 * 60 * 1000).toISOString(), // 18m ago
+  },
+  {
+    id: 'notif-3',
+    message: 'Booking confirmed: Room B2, 2:00–3:00 PM.',
+    type: 'info',
+    isRead: true,
+    createdAt: new Date(Date.now() - 60 * 60 * 1000).toISOString(), // 1h ago
+  },
+  {
+    id: 'notif-4',
+    message: 'Transfer approved: AF-0033 to Facilities dept.',
+    type: 'success',
+    isRead: true,
+    createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(), // 3h ago
+  },
+  {
+    id: 'notif-5',
+    message: 'Overdue return: AF-0021 was due 3 days ago.',
+    type: 'danger',
+    isRead: false,
+    createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1d ago (Yesterday)
+  },
+  {
+    id: 'notif-6',
+    message: 'Audit discrepancy flagged: AF-0088 damaged.',
+    type: 'damaged',
+    isRead: true,
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2d ago (Earlier)
+  }
+];
+
+const MOCK_ACTIVITY_LOGS = [
+  {
+    id: 'log-1',
+    action: 'Assigned Dell Laptop AF-0014 to Priya Shah.',
+    createdAt: new Date(Date.now() - 5 * 60 * 1000).toISOString(),
+    user: {
+      name: 'Sarah Connor',
+      role: 'AssetManager'
+    }
+  },
+  {
+    id: 'log-2',
+    action: 'Approved maintenance request for Forklift AF-0087.',
+    createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
+    user: {
+      name: 'Sarah Connor',
+      role: 'AssetManager'
+    }
+  },
+  {
+    id: 'log-3',
+    action: 'Reserved Conference Room B2 for 2:00–3:00 PM.',
+    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+    user: {
+      name: 'Priya Shah',
+      role: 'Employee'
+    }
+  },
+  {
+    id: 'log-4',
+    action: 'Approved asset transfer of AF-0033 to Facilities dept.',
+    createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+    user: {
+      name: 'John Doe',
+      role: 'DepartmentHead'
+    }
+  },
+  {
+    id: 'log-5',
+    action: 'Marked MacBook Pro AF-0021 as Overdue.',
+    createdAt: new Date(Date.now() - 1.5 * 24 * 60 * 60 * 1000).toISOString(),
+    user: {
+      name: 'System Scheduler',
+      role: 'Admin'
+    }
+  },
+  {
+    id: 'log-6',
+    action: 'Flagged discrepancy: AF-0088 was found Damaged during Q3 Audit.',
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    user: {
+      name: 'Sarah Connor',
+      role: 'AssetManager'
+    }
+  }
+];
+
+/** Plain outline role badge matching design.md */
 function RoleBadge({ role }) {
   return (
-    <span className="inline-flex items-center border border-border rounded-full px-2 py-0.5 text-xs text-foreground font-medium bg-transparent">
+    <span className="inline-flex items-center border border-border rounded-full px-2 py-0.5 text-xs text-foreground font-medium bg-transparent select-none">
       {role}
     </span>
   );
@@ -71,24 +174,40 @@ export default function Notifications() {
   const [actionLoading, setActionLoading] = useState(false);
 
   // Fetch notifications
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+    if (isMockMode) {
+      setNotifications(MOCK_NOTIFICATIONS);
+      return;
+    }
+
     try {
       const res = await api.get('/notifications');
       setNotifications(res.data || []);
     } catch (err) {
       console.error('Failed to fetch notifications:', err);
     }
-  };
+  }, []);
 
   // Fetch activity logs
-  const fetchActivityLogs = async () => {
+  const fetchActivityLogs = useCallback(async () => {
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+    if (isMockMode) {
+      setActivityLogs(MOCK_ACTIVITY_LOGS);
+      return;
+    }
+
     try {
       const res = await api.get('/activity-logs');
       setActivityLogs(res.data || []);
     } catch (err) {
       console.error('Failed to fetch activity logs:', err);
     }
-  };
+  }, []);
 
   // Initial load and view switching
   useEffect(() => {
@@ -102,15 +221,24 @@ export default function Notifications() {
       setLoading(false);
     };
     loadData();
-  }, [view]);
+  }, [view, fetchNotifications, fetchActivityLogs]);
 
   // Mark all as read
   const handleMarkAllRead = async () => {
     if (actionLoading) return;
     setActionLoading(true);
+
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+    if (isMockMode) {
+      setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+      setActionLoading(false);
+      return;
+    }
+
     try {
       await api.patch('/notifications/read-all');
-      // Update local state to read
       setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
     } catch (err) {
       console.error('Failed to mark notifications as read:', err);
@@ -215,7 +343,7 @@ export default function Notifications() {
         <div className="space-y-4">
           {/* Subheader with Filter Tabs & Actions */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border gap-2">
-            {/* Underline Tabs matching design.md §2.3/§5 */}
+            {/* Underline Tabs matching design.md */}
             <div className="flex overflow-x-auto scrollbar-none -mb-px">
               {['All', 'Alerts', 'Approvals', 'Bookings'].map((tab) => (
                 <button
@@ -272,15 +400,15 @@ export default function Notifications() {
 
                 return (
                   <div key={day} className="space-y-2 py-4 first:pt-2">
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground-2 px-4 mb-1">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground-2 px-1 mb-1">
                       {day}
                     </h3>
-                    <div className="border border-border rounded-lg overflow-hidden bg-card divide-y divide-border">
+                    <div className="flex flex-col">
                       {dayNotifs.map((notif) => (
                         <NotificationRow
                           key={notif.id}
                           notification={notif}
-                          className={notif.isRead ? 'opacity-65' : ''}
+                          className={notif.isRead ? 'opacity-60' : ''}
                         />
                       ))}
                     </div>
@@ -350,7 +478,7 @@ export default function Notifications() {
                         <TableCell className="text-sm text-muted-foreground font-normal">
                           {log.action}
                         </TableCell>
-
+                        
                         {/* Target */}
                         <TableCell>
                           {formatTargetTag(getTargetTag(log.action))}
@@ -390,7 +518,7 @@ export default function Notifications() {
 
                     {/* Action Text */}
                     <p className="text-sm text-muted-foreground">
-                      {log.action}
+                       {log.action}
                     </p>
 
                     {/* Meta Row */}

@@ -31,6 +31,7 @@ import { useToast } from '../components/shared/Toast';
 import { StatusDot } from '../components/shared/StatusDot';
 import { Skeleton } from '../components/shared/Skeleton';
 import { Card } from '../components/shared/Card';
+import { cn } from '../lib/utils';
 
 // ─── COLUMN CONFIG ─────────────────────────────────────────────────────────────
 const COLUMNS = [
@@ -694,6 +695,89 @@ function TableView({ tickets }) {
   );
 }
 
+const MOCK_MAINTENANCE_TICKETS = [
+  {
+    id: 'tkt-1',
+    assetId: 'ast-1',
+    raisedById: 'usr-employee',
+    issue: 'Forklift AF-0087: hydraulic fluid leak noticed in warehouse A.',
+    priority: 'High',
+    status: 'Pending',
+    createdAt: '2026-07-10T10:00:00.000Z',
+    updatedAt: '2026-07-10T10:00:00.000Z',
+    asset: { id: 'ast-1', tag: 'AF-0087', name: 'Forklift' },
+    raisedBy: { name: 'Aarav Patel' }
+  },
+  {
+    id: 'tkt-2',
+    assetId: 'ast-2',
+    raisedById: 'usr-employee',
+    issue: 'Laptop AF-0020: thermal throttling under compilation loads.',
+    priority: 'Medium',
+    status: 'Approved',
+    createdAt: '2026-07-09T14:30:00.000Z',
+    updatedAt: '2026-07-09T15:00:00.000Z',
+    asset: { id: 'ast-2', tag: 'AF-0020', name: 'MacBook Pro' },
+    raisedBy: { name: 'Sarah Connor' }
+  },
+  {
+    id: 'tkt-3',
+    assetId: 'ast-3',
+    raisedById: 'usr-employee',
+    issue: 'Projector AF-0062: bulb dimming, requires replacing.',
+    priority: 'Low',
+    status: 'TechnicianAssigned',
+    technician: 'Roberto Sanchez',
+    createdAt: '2026-07-08T09:15:00.000Z',
+    updatedAt: '2026-07-08T11:00:00.000Z',
+    asset: { id: 'ast-3', tag: 'AF-0062', name: 'Conference Projector' },
+    raisedBy: { name: 'John Doe' }
+  },
+  {
+    id: 'tkt-4',
+    assetId: 'ast-4',
+    raisedById: 'usr-employee',
+    issue: 'AC Unit: compressor making loud rattling noise in lobby.',
+    priority: 'High',
+    status: 'InProgress',
+    technician: 'Lara Croft',
+    createdAt: '2026-07-07T08:00:00.000Z',
+    updatedAt: '2026-07-07T10:30:00.000Z',
+    asset: { id: 'ast-4', tag: 'AF-0010', name: 'AC Unit' },
+    raisedBy: { name: 'Priya Shah' }
+  },
+  {
+    id: 'tkt-5',
+    assetId: 'ast-5',
+    raisedById: 'usr-employee',
+    issue: 'Server Rack SR-09: replacing faulty power supply unit.',
+    priority: 'High',
+    status: 'Resolved',
+    technician: 'Roberto Sanchez',
+    createdAt: '2026-07-05T12:00:00.000Z',
+    updatedAt: '2026-07-06T16:00:00.000Z',
+    asset: { id: 'ast-5', tag: 'SR-09', name: 'Dell Server Rack' },
+    raisedBy: { name: 'John Doe' }
+  }
+];
+
+const MOCK_ASSETS = [
+  { id: 'ast-1', tag: 'AF-0087', name: 'Forklift' },
+  { id: 'ast-2', tag: 'AF-0020', name: 'MacBook Pro' },
+  { id: 'ast-3', tag: 'AF-0062', name: 'Conference Projector' },
+  { id: 'ast-4', tag: 'AF-0010', name: 'AC Unit' },
+  { id: 'ast-5', tag: 'SR-09', name: 'Dell Server Rack' },
+  { id: 'ast-6', tag: 'AF-0301', name: 'Sony Camera' },
+  { id: 'ast-7', tag: 'AF-0044', name: 'iPad Pro' }
+];
+
+const MOCK_EMPLOYEES = [
+  { id: 'emp-1', name: 'Roberto Sanchez', email: 'roberto@assetflow.com' },
+  { id: 'emp-2', name: 'Lara Croft', email: 'lara@assetflow.com' },
+  { id: 'emp-3', name: 'Aarav Patel', email: 'aarav@assetflow.com' },
+  { id: 'emp-4', name: 'Sarah Connor', email: 'sarah@assetflow.com' }
+];
+
 // ─── MAIN MAINTENANCE PAGE ─────────────────────────────────────────────────────
 export default function Maintenance() {
   const { user } = useAuth();
@@ -743,6 +827,16 @@ export default function Maintenance() {
   // ─── FETCH CORE DATA ─────────────────────────────────────────────────────────
   const fetchAll = useCallback(async () => {
     setLoading(true);
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+    if (isMockMode) {
+      setTickets(MOCK_MAINTENANCE_TICKETS);
+      setAssets(MOCK_ASSETS);
+      setEmployees(MOCK_EMPLOYEES);
+      setLoading(false);
+      return;
+    }
+
     try {
       const [mRes, aRes, eRes] = await Promise.all([
         api.get('/maintenance'),
@@ -836,6 +930,33 @@ export default function Maintenance() {
 
   // ─── STATE TRANSITIONS CALLS ──────────────────────────────────────────────────
   const execTransition = async (id, action, payload = {}) => {
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+    if (isMockMode) {
+      setTickets((prev) =>
+        prev.map((t) => {
+          if (t.id === id) {
+            let nextStatus = t.status;
+            if (action === 'approve') nextStatus = 'Approved';
+            else if (action === 'assign') nextStatus = 'TechnicianAssigned';
+            else if (action === 'start') nextStatus = 'InProgress';
+            else if (action === 'resolve') nextStatus = 'Resolved';
+            else if (action === 'reject') nextStatus = 'Rejected';
+
+            return {
+              ...t,
+              status: nextStatus,
+              technician: action === 'assign' ? payload.technician : t.technician,
+              updatedAt: new Date().toISOString(),
+            };
+          }
+          return t;
+        })
+      );
+      return;
+    }
+
     try {
       await api.patch(`/maintenance/${id}/${action}`, payload);
       await fetchAll();
@@ -877,9 +998,37 @@ export default function Maintenance() {
   };
 
   const handleRaise = async (form) => {
-    await api.post('/maintenance', form);
-    await fetchAll();
-    toast(`Maintenance request successfully raised.`);
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+    if (isMockMode) {
+      const selectedAsset = assets.find((a) => a.id === form.assetId);
+      const newTicket = {
+        id: `tkt-${Date.now()}`,
+        assetId: form.assetId,
+        raisedById: user?.id || 'usr-mock',
+        issue: form.issue,
+        priority: form.priority,
+        photoUrl: form.photoUrl,
+        status: 'Pending',
+        technician: null,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        asset: selectedAsset ? { id: selectedAsset.id, tag: selectedAsset.tag, name: selectedAsset.name } : null,
+        raisedBy: { name: user?.name || 'Mock User' },
+      };
+      setTickets((prev) => [newTicket, ...prev]);
+      toast('Maintenance request successfully raised.');
+      return;
+    }
+
+    try {
+      await api.post('/maintenance', form);
+      await fetchAll();
+      toast(`Maintenance request successfully raised.`);
+    } catch (err) {
+      toast(err.response?.data?.error ?? 'Failed to submit request.');
+    }
   };
 
   const handleMenuAction = (ticket, action) => {

@@ -185,6 +185,19 @@ function CreateCycleDialog({ open, onClose, onCreated, toast }) {
     if (!open) return;
     setForm({ scope: '', startDate: '', endDate: '', auditorIds: [] });
     setError('');
+    
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+    if (isMockMode) {
+      setUsers([
+        { id: 'emp-1', name: 'Roberto Sanchez', email: 'roberto@assetflow.com' },
+        { id: 'emp-2', name: 'Lara Croft', email: 'lara@assetflow.com' },
+        { id: 'emp-3', name: 'Aarav Patel', email: 'aarav@assetflow.com' },
+        { id: 'emp-4', name: 'Sarah Connor', email: 'sarah@assetflow.com' }
+      ]);
+      return;
+    }
+    
     api.get('/employees').then((r) => setUsers(r.data)).catch(() => {});
   }, [open]);
 
@@ -204,6 +217,26 @@ function CreateCycleDialog({ open, onClose, onCreated, toast }) {
       return;
     }
     setSubmit(true);
+
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+    if (isMockMode) {
+      const newCycle = {
+        id: `cyc-${Date.now()}`,
+        scope: form.scope,
+        startDate: form.startDate,
+        endDate: form.endDate,
+        status: 'Open',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      toast('Audit cycle created.');
+      onCreated(newCycle);
+      onClose();
+      setSubmit(false);
+      return;
+    }
+
     try {
       const res = await api.post('/audit-cycles', form);
       toast('Audit cycle created.');
@@ -468,6 +501,20 @@ function CycleDetailView({ cycle, onBack, toast }) {
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+    if (isMockMode) {
+      const mockItems = [
+        { id: `itm-1-${cycle.id}`, asset: { tag: 'AF-0012', name: 'Dell Laptop' }, auditor: { name: 'Sarah Connor' }, result: 'Verified', cycleId: cycle.id },
+        { id: `itm-2-${cycle.id}`, asset: { tag: 'AF-0020', name: 'MacBook Pro' }, auditor: { name: 'Sarah Connor' }, result: 'Damaged', cycleId: cycle.id },
+        { id: `itm-3-${cycle.id}`, asset: { tag: 'AF-0062', name: 'Conference Projector' }, auditor: { name: 'John Doe' }, result: 'Pending', cycleId: cycle.id },
+        { id: `itm-4-${cycle.id}`, asset: { tag: 'AF-0087', name: 'Forklift' }, auditor: { name: 'Roberto Sanchez' }, result: 'Missing', cycleId: cycle.id }
+      ];
+      setItems(mockItems);
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await api.get(`/audit-cycles/${cycle.id}/items`);
       setItems(res.data);
@@ -483,6 +530,14 @@ function CycleDetailView({ cycle, onBack, toast }) {
   const handleVerify = async (itemId, result) => {
     // Optimistic update
     setItems((prev) => prev.map((i) => i.id === itemId ? { ...i, result } : i));
+    
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+    if (isMockMode) {
+      toast('Verification status updated.');
+      return;
+    }
+
     try {
       await api.patch(`/audit-items/${itemId}`, { result });
     } catch (err) {
@@ -493,6 +548,16 @@ function CycleDetailView({ cycle, onBack, toast }) {
 
   const handleClose = async () => {
     setCloseConfirm(false);
+    
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+    if (isMockMode) {
+      setCycleStatus('Closed');
+      setItems((prev) => prev.map((i) => i.result === 'Pending' ? { ...i, result: 'Missing' } : i));
+      toast('Audit cycle closed. Missing assets marked as Lost.');
+      return;
+    }
+
     try {
       await api.patch(`/audit-cycles/${cycle.id}/close`);
       setCycleStatus('Closed');
@@ -689,6 +754,33 @@ export default function Audits() {
 
   const fetchCycles = useCallback(async () => {
     setLoading(true);
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+    if (isMockMode) {
+      setCycles([
+        {
+          id: 'cyc-1',
+          scope: 'Q3 Electronics Audit',
+          startDate: '2026-07-01T00:00:00.000Z',
+          endDate: '2026-07-31T00:00:00.000Z',
+          status: 'Open',
+          createdAt: '2026-07-01T08:00:00.000Z',
+          updatedAt: '2026-07-01T08:00:00.000Z'
+        },
+        {
+          id: 'cyc-2',
+          scope: 'H1 Vehicles Inventory',
+          startDate: '2026-01-15T00:00:00.000Z',
+          endDate: '2026-01-30T00:00:00.000Z',
+          status: 'Closed',
+          createdAt: '2026-01-15T09:00:00.000Z',
+          updatedAt: '2026-01-30T17:00:00.000Z'
+        }
+      ]);
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await api.get('/audit-cycles');
       setCycles(res.data);
