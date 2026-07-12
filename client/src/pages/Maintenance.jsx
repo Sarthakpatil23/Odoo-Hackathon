@@ -956,7 +956,7 @@ export default function Maintenance() {
             onDragOver={handleDragOver}
             onDragEnd={handleDragEnd}
           >
-            <div className="flex overflow-x-auto border border-border rounded-lg">
+            <div className="flex overflow-x-auto border border-border rounded-lg premium-scrollbar">
               {COLUMNS.map((col) => (
                 <KanbanColumn
                   key={col.id}

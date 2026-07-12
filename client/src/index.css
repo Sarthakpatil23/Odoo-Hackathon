@@ -154,22 +154,23 @@ html {
   }
 }
 
-/* Custom premium scrollbar utility class */
+/* Custom premium scrollbar — near-invisible at rest, subtle on hover */
 .premium-scrollbar::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
+  height: 3px;
+  width: 3px;
 }
 .premium-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 .premium-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 9999px;
+  transition: background 0.2s ease;
 }
 .premium-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.18);
 }
 .premium-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.06) transparent;
 }
