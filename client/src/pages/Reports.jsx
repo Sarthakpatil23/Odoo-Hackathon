@@ -843,30 +843,33 @@ export default function Reports() {
                 </Popover>
               </div>
 
-              <div className="flex-1 min-h-[240px] flex flex-col justify-center">
+              <div className="flex-1 min-h-[260px] flex flex-col justify-center">
                 {isLoading ? (
                   <HeatmapSkeleton />
                 ) : (
-                  <div className="relative">
+                  <div className="relative w-full max-w-[480px] mx-auto pb-10 pt-2 px-1">
                     {/* Month labels on top */}
-                    <div className="flex pl-8 pr-1 mb-1 text-[9px] text-muted-foreground justify-between select-none">
+                    <div className="flex pl-8 pr-1 mb-2 text-[9px] font-medium text-muted-foreground justify-between select-none">
                       <span>Mar</span>
                       <span>Apr</span>
                       <span>May</span>
                       <span>Jun</span>
                     </div>
 
-                    <div className="flex gap-2">
-                      {/* Weekday labels left */}
-                      <div className="flex flex-col justify-between text-[9px] text-muted-foreground h-28 py-0.5 select-none w-6">
-                        <span>Sun</span>
-                        <span>Tue</span>
-                        <span>Thu</span>
-                        <span>Sat</span>
+                    <div className="flex gap-3">
+                      {/* Weekday labels left - matching the 7 rows layout */}
+                      <div className="grid grid-rows-7 gap-1 text-[9px] text-muted-foreground select-none w-6 text-left py-0.5">
+                        <span className="flex items-center justify-start h-full">Sun</span>
+                        <span className="flex items-center justify-start h-full" />
+                        <span className="flex items-center justify-start h-full">Tue</span>
+                        <span className="flex items-center justify-start h-full" />
+                        <span className="flex items-center justify-start h-full">Thu</span>
+                        <span className="flex items-center justify-start h-full" />
+                        <span className="flex items-center justify-start h-full">Sat</span>
                       </div>
 
-                      {/* Heatmap calendar grid */}
-                      <div className="flex-1 grid gap-1 h-28" style={{ gridTemplateColumns: 'repeat(18, minmax(0, 1fr))' }}>
+                      {/* Heatmap calendar grid - matching column-first data flow */}
+                      <div className="flex-1 grid grid-rows-7 grid-flow-col gap-1" style={{ gridTemplateColumns: 'repeat(18, minmax(0, 1fr))' }}>
                         {heatmapData.map((cell, idx) => {
                           return (
                             <div
@@ -888,16 +891,16 @@ export default function Reports() {
                       </div>
                     </div>
 
-                    {/* Simple legend */}
-                    <div className="flex items-center justify-end gap-1.5 mt-3 text-[10px] text-muted-foreground select-none">
-                      <span>Less</span>
+                    {/* Simple legend absolute positioned at bottom-right inside padding */}
+                    <div className="absolute bottom-0 right-1 flex items-center gap-1.5 text-[9px] text-muted-foreground select-none">
+                      <span className="mr-1">Less</span>
                       <div className="w-2.5 h-2.5 rounded-[1px]" style={{ backgroundColor: getHeatmapColor(0) }} />
                       <div className="w-2.5 h-2.5 rounded-[1px]" style={{ backgroundColor: getHeatmapColor(2) }} />
                       <div className="w-2.5 h-2.5 rounded-[1px]" style={{ backgroundColor: getHeatmapColor(4) }} />
                       <div className="w-2.5 h-2.5 rounded-[1px]" style={{ backgroundColor: getHeatmapColor(6) }} />
                       <div className="w-2.5 h-2.5 rounded-[1px]" style={{ backgroundColor: getHeatmapColor(8) }} />
                       <div className="w-2.5 h-2.5 rounded-[1px]" style={{ backgroundColor: getHeatmapColor(10) }} />
-                      <span>More</span>
+                      <span className="ml-1">More</span>
                     </div>
 
                     {/* Heatmap Tooltip */}
