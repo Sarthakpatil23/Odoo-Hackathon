@@ -39,6 +39,11 @@ export default {
         card: {
           DEFAULT: "oklch(var(--card) / <alpha-value>)",
           foreground: "oklch(var(--card-foreground) / <alpha-value>)",
+          hover: "oklch(var(--card-hover) / <alpha-value>)",
+        },
+        border: {
+          DEFAULT: "oklch(var(--border) / <alpha-value>)",
+          strong: "oklch(var(--border-strong) / <alpha-value>)",
         },
         popover: {
           DEFAULT: "oklch(var(--popover) / <alpha-value>)",

@@ -116,32 +116,40 @@ html {
     --pop: 0.78 0.14 200;
   }
 
-  /* Dark mode — used by the app shell (dashboard, auth etc) */
+  /*
+   * Dark mode — design.md v2 (Vercel-reference)
+   * Pure black canvas, grayscale surfaces, hairline borders.
+   * Status dots are the ONLY color — see lib/tokens.js
+   */
   .dark {
-    /* Deep Navy: #020617 */
-    --background: 0.145 0 0;
-    --foreground: 0.96 0 0;
-    --card: 0.19 0 0;
-    --card-foreground: 0.96 0 0;
-    --popover: 0.21 0 0;
-    --border: 0.28 0 0;
-    --input: 0.28 0 0;
-    --muted: 0.23 0 0;
-    --muted-foreground: 0.64 0 0;
+    /* §2.1 Base palette */
+    --background:        0.04 0 0;   /* #000000 — pure black canvas */
+    --surface:           0.07 0 0;   /* #0A0A0A — sidebar / topbar */
+    --card:              0.10 0 0;   /* #111111 — card / panel fill */
+    --card-hover:        0.12 0 0;   /* #161616 — card interactive hover */
+    --card-foreground:   0.93 0 0;   /* #EDEDED */
+    --popover:           0.12 0 0;   /* #171717 — dropdowns, dialogs */
+    --border:            0.17 0 0;   /* #232323 — hairline border */
+    --border-strong:     0.22 0 0;   /* #2E2E2E — active item outline */
+    --foreground:        0.93 0 0;   /* #EDEDED — primary text */
+    --muted-foreground:  0.55 0 0;   /* #888888 — secondary text */
+    --muted-foreground-2: 0.38 0 0;  /* #5C5C5C — tertiary / disabled */
+    --input:             0.17 0 0;
+    --muted:             0.17 0 0;
 
-    /* Primary Indigo (same across modes) */
-    --ring: 0.54 0.22 284;
-    --primary: 0.54 0.22 284;
-    --primary-foreground: 0.99 0 0;
+    /* §2.2 Primary = contrast (off-white fill, near-black text) */
+    --primary:           0.93 0 0;   /* #EDEDED — off-white button fill */
+    --primary-foreground: 0.07 0 0;  /* #0A0A0A — near-black text on it */
+    --ring:              0.93 0 0;   /* white focus ring at low opacity */
 
-    /* Status colors */
-    --success: 0.72 0.19 155;
-    --info: 0.62 0.19 255;
-    --warning: 0.78 0.16 75;
-    --attention: 0.72 0.18 45;
-    --danger: 0.62 0.20 15;
-    --damaged: 0.55 0.22 320;
-    --neutral-state: 0.62 0 0;
+    /* §2.3 Status colors — the ONLY hue allowed */
+    --success:      0.72 0.19 155;   /* #3FBA6D */
+    --info:         0.60 0.16 240;   /* #4B8FE0 */
+    --warning:      0.74 0.15 75;    /* #D9A441 */
+    --attention:    0.68 0.16 45;    /* #D97B3F */
+    --danger:       0.60 0.17 15;    /* #DB5A5A */
+    --damaged:      0.52 0.19 305;   /* #A25AC7 */
+    --neutral-state: 0.48 0 0;       /* #6E6E6E */
     --pop: 0.78 0.14 200;
   }
 }
