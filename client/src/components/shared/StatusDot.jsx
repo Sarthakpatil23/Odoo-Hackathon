@@ -1,65 +1,79 @@
 /**
  * StatusDot — design.md §5.4
  * Renders a small colored dot + plain muted-foreground label.
- * The ONLY color allowed in the design system outside of this component is bg-background.
+ * The ONLY color allowed in the design system outside of this component.
  *
- * Status → dot color mapping follows design.md §2.3 exactly.
+ * Uses Tailwind color classes (bg-success, bg-danger, etc.) which map to
+ * the CSS variables in index.css — no hardcoded hex values.
  */
 
-const STATUS_CONFIG = {
+import { cn } from '../../lib/utils';
+
+const STATUS_MAP = {
   // Active / Available states
-  active:     { color: '#3FBA6D', label: 'Active' },
-  available:  { color: '#3FBA6D', label: 'Available' },
-  verified:   { color: '#3FBA6D', label: 'Verified' },
-  approved:   { color: '#3FBA6D', label: 'Approved' },
-  completed:  { color: '#3FBA6D', label: 'Completed' },
-  resolved:   { color: '#3FBA6D', label: 'Resolved' },
+  active:        { bg: 'bg-success', label: 'Active' },
+  success:       { bg: 'bg-success', label: 'Success' },
+  available:     { bg: 'bg-success', label: 'Available' },
+  verified:      { bg: 'bg-success', label: 'Verified' },
+  approved:      { bg: 'bg-success', label: 'Approved' },
+  completed:     { bg: 'bg-success', label: 'Completed' },
+  resolved:      { bg: 'bg-success', label: 'Resolved' },
 
   // Info states
-  allocated:  { color: '#4B8FE0', label: 'Allocated' },
-  ongoing:    { color: '#4B8FE0', label: 'Ongoing' },
-  'in-progress': { color: '#4B8FE0', label: 'In Progress' },
+  info:          { bg: 'bg-info', label: 'Info' },
+  allocated:     { bg: 'bg-info', label: 'Allocated' },
+  ongoing:       { bg: 'bg-info', label: 'Ongoing' },
+  'in progress': { bg: 'bg-info', label: 'In Progress' },
+  'in-progress': { bg: 'bg-info', label: 'In Progress' },
 
   // Warning states
-  reserved:   { color: '#D9A441', label: 'Reserved' },
-  upcoming:   { color: '#D9A441', label: 'Upcoming' },
-  pending:    { color: '#D9A441', label: 'Pending' },
+  warning:       { bg: 'bg-warning', label: 'Warning' },
+  reserved:      { bg: 'bg-warning', label: 'Reserved' },
+  pending:       { bg: 'bg-warning', label: 'Pending' },
+  upcoming:      { bg: 'bg-warning', label: 'Upcoming' },
 
   // Attention states
-  maintenance: { color: '#D97B3F', label: 'Under Maintenance' },
+  attention:         { bg: 'bg-attention', label: 'Attention' },
+  maintenance:       { bg: 'bg-attention', label: 'Under Maintenance' },
+  'under maintenance': { bg: 'bg-attention', label: 'Under Maintenance' },
+  'high priority':   { bg: 'bg-attention', label: 'High Priority' },
 
   // Danger states
-  lost:       { color: '#DB5A5A', label: 'Lost' },
-  rejected:   { color: '#DB5A5A', label: 'Rejected' },
-  overdue:    { color: '#DB5A5A', label: 'Overdue' },
-
-  // Neutral / Inactive
-  inactive:   { color: '#6E6E6E', label: 'Inactive' },
-  retired:    { color: '#6E6E6E', label: 'Retired' },
-  disposed:   { color: '#6E6E6E', label: 'Disposed' },
-  cancelled:  { color: '#6E6E6E', label: 'Cancelled' },
+  danger:   { bg: 'bg-danger', label: 'Danger' },
+  lost:     { bg: 'bg-danger', label: 'Lost' },
+  rejected: { bg: 'bg-danger', label: 'Rejected' },
+  overdue:  { bg: 'bg-danger', label: 'Overdue' },
+  missing:  { bg: 'bg-danger', label: 'Missing' },
 
   // Damaged (audit only)
-  damaged:    { color: '#A25AC7', label: 'Damaged' },
+  damaged: { bg: 'bg-damaged', label: 'Damaged' },
+
+  // Neutral / Inactive
+  neutral:   { bg: 'bg-neutral-state', label: 'Neutral' },
+  inactive:  { bg: 'bg-neutral-state', label: 'Inactive' },
+  retired:   { bg: 'bg-neutral-state', label: 'Retired' },
+  disposed:  { bg: 'bg-neutral-state', label: 'Disposed' },
+  cancelled: { bg: 'bg-neutral-state', label: 'Cancelled' },
 };
 
 /**
  * @param {object} props
- * @param {keyof STATUS_CONFIG} props.status - the status key
+ * @param {string} props.status - the status key (case-insensitive)
  * @param {string} [props.label] - override the displayed text label
+ * @param {string} [props.className] - additional classes
  */
-export function StatusDot({ status, label }) {
-  const config = STATUS_CONFIG[status] ?? { color: '#6E6E6E', label: status };
+export function StatusDot({ status, label, className }) {
+  const normalized = (status || '').toLowerCase();
+  const config = STATUS_MAP[normalized] ?? { bg: 'bg-neutral-state', label: status };
   const displayLabel = label ?? config.label;
 
   return (
-    <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground">
+    <span className={cn('inline-flex items-center gap-1.5 text-sm text-muted-foreground', className)}>
       <span
-        className="h-2 w-2 rounded-full shrink-0"
-        style={{ backgroundColor: config.color }}
+        className={cn('h-2 w-2 rounded-full shrink-0', config.bg)}
         aria-hidden="true"
       />
-      {displayLabel}
+      <span>{displayLabel}</span>
     </span>
   );
 }

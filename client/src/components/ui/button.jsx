@@ -2,50 +2,47 @@ import * as React from "react"
 import { cn } from "../../lib/utils"
 
 /**
- * Button — Design System Compliant
+ * Button — Design System Compliant (V2)
  *
- * Per design.md Button Standards:
- * - Pill shape: rounded-full
- * - Primary: bg-indigo-600 hover:bg-indigo-700, white bold text,
- *   shadow-lg shadow-indigo-600/30, smooth hover translate + scale
- * - Secondary: bg-white hover:bg-slate-50, dark slate semibold text,
- *   shadow-md hover:shadow-lg
- * - Default height: h-[52px] for primary CTA buttons (py-3.5 px-8)
+ * Per design.md v2 standards:
+ * - Corner radius: rounded-lg (8px)
+ * - Primary: bg-primary text-primary-foreground hover:bg-primary/90, no glow shadow
+ * - Secondary/outline: border border-border bg-transparent text-foreground hover:bg-white/5
+ * - Ghost: text-muted-foreground hover:text-foreground hover:bg-white/5
+ * - Destructive: same shape as secondary/outline but text-danger border-danger/30
  */
 const Button = React.forwardRef(({ className, variant = "default", size = "default", ...props }, ref) => {
   const variants = {
-    // Primary — Indigo-600, white bold text, glow shadow
+    // Primary - solid off-white fill with near-black text
     default:
-      "bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-lg shadow-indigo-600/30 transform hover:-translate-y-0.5 hover:scale-105 active:scale-95 transition-all duration-300",
-    // Destructive — danger red
+      "bg-primary text-primary-foreground hover:bg-primary/90 font-medium transition-colors",
+    // Destructive - outline border-danger/30 text-danger
     destructive:
-      "bg-danger text-white shadow-sm hover:bg-danger/90 transition-colors",
-    // Outline
+      "border border-danger/30 bg-transparent text-danger hover:bg-danger/10 font-medium transition-colors",
+    // Outline / Secondary
     outline:
-      "border border-border bg-transparent shadow-sm hover:bg-muted hover:text-foreground transition-colors",
-    // Secondary / Nav — white fill, dark text
+      "border border-border bg-transparent text-foreground hover:bg-white/5 font-medium transition-colors",
+    // Secondary alias for convenience
     secondary:
-      "bg-white hover:bg-slate-50 text-slate-900 font-semibold shadow-md hover:shadow-lg transition-all duration-300",
+      "border border-border bg-transparent text-foreground hover:bg-white/5 font-medium transition-colors",
     // Ghost
-    ghost: "hover:bg-muted hover:text-foreground transition-colors",
+    ghost: "text-muted-foreground hover:text-foreground hover:bg-white/5 font-medium transition-colors",
     // Link
-    link: "text-indigo-600 underline-offset-4 hover:underline",
+    link: "text-foreground underline-offset-4 hover:underline font-medium",
   }
 
   const sizes = {
-    // Default: 52px height pill — matches design spec exactly
-    default: "h-[52px] px-8 py-3.5",
-    sm: "h-9 px-4 text-sm",
-    lg: "h-[52px] px-10",
-    icon: "h-[52px] w-[52px]",
+    default: "h-9 px-4 py-2 text-sm",
+    sm: "h-8 px-3 text-xs",
+    lg: "h-10 px-5 text-sm",
+    icon: "h-9 w-9 p-0 flex items-center justify-center",
   }
 
   return (
     <button
       ref={ref}
       className={cn(
-        // All buttons are pill-shaped per design.md
-        "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 transition-colors duration-150",
         variants[variant],
         sizes[size],
         className
