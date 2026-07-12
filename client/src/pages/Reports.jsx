@@ -63,7 +63,7 @@ export default function Reports() {
         <div className="bg-slate-950 border border-slate-800 px-3 py-2 rounded-xl text-xs font-semibold shadow-2xl">
           <p className="text-slate-400 uppercase tracking-wider">{payload[0].name}</p>
           <p className="text-slate-100 text-sm mt-0.5">
-            Count: <span className="text-violet-400 font-bold">{payload[0].value}</span>
+            Count: <span className="text-indigo-400 font-bold">{payload[0].value}</span>
           </p>
         </div>
       );
@@ -75,7 +75,7 @@ export default function Reports() {
     <div className="p-8 max-w-7xl mx-auto text-slate-100 min-h-screen">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-200">
+        <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-sky-300">
           Analytics Reports
         </h1>
         <p className="text-slate-400 text-sm mt-1">
@@ -94,7 +94,7 @@ export default function Reports() {
 
       {loading ? (
         <div className="py-24 flex flex-col items-center justify-center gap-4">
-          <div className="w-12 h-12 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+          <div className="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
           <span className="text-slate-400 text-sm">Compiling statistics...</span>
         </div>
       ) : (

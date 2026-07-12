@@ -48,7 +48,7 @@ export default function AuthPage({ initialMode = 'login' }) {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col lg:flex-row font-sans">
+    <div className="dark min-h-screen bg-background flex flex-col lg:flex-row font-sans">
       {/* Left Panel - Visual Side (Desktop ≥1024px) */}
       <div className="relative hidden lg:flex lg:w-[55%] flex-col justify-end p-16 overflow-hidden bg-background">
         <Aurora />

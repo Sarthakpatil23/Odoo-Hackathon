@@ -36,8 +36,8 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+      <div className="dark min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
       </div>
     );
   }
@@ -47,7 +47,7 @@ export default function Dashboard() {
       {/* Welcome Banner */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-200">
+          <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-sky-300">
             Welcome back, {user?.name || 'User'}!
           </h1>
           <p className="text-slate-400 text-sm mt-1">
@@ -150,30 +150,30 @@ export default function Dashboard() {
           <div className="space-y-3">
             <Link
               to="/assets"
-              className="w-full flex items-center justify-between p-3.5 bg-slate-950 border border-slate-850 hover:border-violet-500/45 rounded-xl transition-all font-medium text-sm text-slate-200"
+              className="w-full flex items-center justify-between p-3.5 bg-slate-950 border border-slate-850 hover:border-indigo-500/45 rounded-xl transition-all font-medium text-sm text-slate-200"
             >
               <span>Register Assets</span>
-              <svg className="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
 
             <Link
               to="/bookings"
-              className="w-full flex items-center justify-between p-3.5 bg-slate-950 border border-slate-850 hover:border-violet-500/45 rounded-xl transition-all font-medium text-sm text-slate-200"
+              className="w-full flex items-center justify-between p-3.5 bg-slate-950 border border-slate-850 hover:border-indigo-500/45 rounded-xl transition-all font-medium text-sm text-slate-200"
             >
               <span>Book Resources</span>
-              <svg className="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
 
             <Link
               to="/maintenance"
-              className="w-full flex items-center justify-between p-3.5 bg-slate-950 border border-slate-850 hover:border-violet-500/45 rounded-xl transition-all font-medium text-sm text-slate-200"
+              className="w-full flex items-center justify-between p-3.5 bg-slate-950 border border-slate-850 hover:border-indigo-500/45 rounded-xl transition-all font-medium text-sm text-slate-200"
             >
               <span>Raise Maintenance Ticket</span>
-              <svg className="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>

@@ -75,7 +75,7 @@ function useToast() {
 
 function IdentityChip({ tag }) {
   return (
-    <span className="font-mono text-[11px] font-semibold px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-violet-300 tracking-wide">
+    <span className="font-mono text-[11px] font-semibold px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-indigo-300 tracking-wide">
       {tag}
     </span>
   );
@@ -234,7 +234,7 @@ function KanbanColumn({ col, cards, isOver, onMenuAction }) {
   return (
     <div
       className={`flex flex-col shrink-0 w-64 rounded-2xl border transition-colors
-        ${isOver ? 'border-violet-500/40 bg-violet-500/5' : 'border-slate-800 bg-slate-900/30'}
+        ${isOver ? 'border-indigo-500/40 bg-indigo-500/5' : 'border-slate-800 bg-slate-900/30'}
       `}
     >
       {/* Column header */}
@@ -282,7 +282,7 @@ function ApproveDialog({ req, onConfirm, onCancel }) {
         <h3 className="text-lg font-bold text-slate-100 mb-2">Approve Maintenance?</h3>
         <p className="text-sm text-slate-400 mb-6">
           Approve maintenance for{' '}
-          <span className="font-mono text-violet-300 font-semibold">{req.asset?.tag}</span>?
+          <span className="font-mono text-indigo-300 font-semibold">{req.asset?.tag}</span>?
           <br />
           The asset will be marked <span className="text-amber-400 font-medium">Under Maintenance</span>.
         </p>
@@ -317,7 +317,7 @@ function AssignTechDialog({ req, onConfirm, onCancel }) {
         <h3 className="text-lg font-bold text-slate-100 mb-2">Assign Technician</h3>
         <p className="text-xs text-slate-500 mb-4">
           Required before moving{' '}
-          <span className="font-mono text-violet-300">{req.asset?.tag}</span> to Technician Assigned.
+          <span className="font-mono text-indigo-300">{req.asset?.tag}</span> to Technician Assigned.
         </p>
         <input
           autoFocus
@@ -325,7 +325,7 @@ function AssignTechDialog({ req, onConfirm, onCancel }) {
           placeholder="Technician name or team…"
           value={techName}
           onChange={(e) => setTechName(e.target.value)}
-          className="w-full px-3 py-2.5 text-sm bg-slate-950 border border-slate-700 focus:border-violet-500 rounded-xl text-slate-100 outline-none mb-5"
+          className="w-full px-3 py-2.5 text-sm bg-slate-950 border border-slate-700 focus:border-indigo-500 rounded-xl text-slate-100 outline-none mb-5"
         />
         <div className="flex justify-end gap-3">
           <button
@@ -337,7 +337,7 @@ function AssignTechDialog({ req, onConfirm, onCancel }) {
           <button
             onClick={() => techName.trim() && onConfirm(techName.trim())}
             disabled={!techName.trim()}
-            className="px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 rounded-xl hover:from-indigo-500 hover:to-violet-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-600 rounded-xl hover:from-indigo-500 hover:to-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             Assign
           </button>
@@ -359,7 +359,7 @@ function ResolveDialog({ req, onConfirm, onCancel }) {
         <h3 className="text-lg font-bold text-slate-100 mb-2">Resolve Ticket</h3>
         <p className="text-xs text-slate-500 mb-4">
           Add resolution notes for{' '}
-          <span className="font-mono text-violet-300">{req.asset?.tag}</span> before closing.
+          <span className="font-mono text-indigo-300">{req.asset?.tag}</span> before closing.
         </p>
         <textarea
           autoFocus
@@ -367,7 +367,7 @@ function ResolveDialog({ req, onConfirm, onCancel }) {
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={3}
-          className="w-full px-3 py-2.5 text-sm bg-slate-950 border border-slate-700 focus:border-violet-500 rounded-xl text-slate-100 outline-none resize-none mb-5"
+          className="w-full px-3 py-2.5 text-sm bg-slate-950 border border-slate-700 focus:border-indigo-500 rounded-xl text-slate-100 outline-none resize-none mb-5"
         />
         <div className="flex justify-end gap-3">
           <button
@@ -401,7 +401,7 @@ function RejectDialog({ req, onConfirm, onCancel }) {
         <h3 className="text-lg font-bold text-red-400 mb-2">Reject Ticket</h3>
         <p className="text-xs text-slate-500 mb-4">
           Provide a reason for rejecting{' '}
-          <span className="font-mono text-violet-300">{req.asset?.tag}</span>. This will remove it from the board.
+          <span className="font-mono text-indigo-300">{req.asset?.tag}</span>. This will remove it from the board.
         </p>
         <textarea
           autoFocus
@@ -458,7 +458,7 @@ function RaiseRequestModal({ isOpen, onClose, assets, onSubmit }) {
             required
             value={form.assetId}
             onChange={(e) => setForm({ ...form, assetId: e.target.value })}
-            className="w-full px-3 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none cursor-pointer"
+            className="w-full px-3 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none cursor-pointer"
           >
             <option value="">Select Asset</option>
             {assets.map((a) => (
@@ -479,7 +479,7 @@ function RaiseRequestModal({ isOpen, onClose, assets, onSubmit }) {
             value={form.issue}
             onChange={(e) => setForm({ ...form, issue: e.target.value })}
             rows={3}
-            className="w-full px-3 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none resize-none"
+            className="w-full px-3 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none resize-none"
           />
         </div>
 
@@ -490,7 +490,7 @@ function RaiseRequestModal({ isOpen, onClose, assets, onSubmit }) {
           <select
             value={form.priority}
             onChange={(e) => setForm({ ...form, priority: e.target.value })}
-            className="w-full px-3 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none cursor-pointer"
+            className="w-full px-3 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none cursor-pointer"
           >
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -509,7 +509,7 @@ function RaiseRequestModal({ isOpen, onClose, assets, onSubmit }) {
           <button
             type="submit"
             disabled={submitting}
-            className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all disabled:opacity-60"
+            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all disabled:opacity-60"
           >
             {submitting ? 'Submitting…' : 'Submit Ticket'}
           </button>
@@ -788,7 +788,7 @@ export default function Maintenance() {
                 onClick={() => setView(v)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all capitalize ${
                   view === v
-                    ? 'bg-violet-600 text-white shadow-sm'
+                    ? 'bg-indigo-600 text-white shadow-sm'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -816,7 +816,7 @@ export default function Maintenance() {
           {/* Raise Request */}
           <button
             onClick={() => setIsRaiseOpen(true)}
-            className="px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-violet-600/15 active:scale-95 flex items-center gap-2"
+            className="px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-indigo-600/15 active:scale-95 flex items-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -829,7 +829,7 @@ export default function Maintenance() {
       {/* ── Loading ── */}
       {loading && (
         <div className="flex-1 flex items-center justify-center">
-          <div className="w-10 h-10 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
         </div>
       )}
 

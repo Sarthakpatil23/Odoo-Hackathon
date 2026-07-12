@@ -146,7 +146,7 @@ export default function AssetDetail() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
       </div>
     );
   }
@@ -212,7 +212,7 @@ export default function AssetDetail() {
 
             <div>
               <div className="flex items-center gap-3 flex-wrap mb-2">
-                <span className="text-xs font-bold text-violet-400 tracking-wider bg-violet-500/10 px-2 py-0.5 rounded border border-violet-500/20">{asset.tag}</span>
+                <span className="text-xs font-bold text-indigo-400 tracking-wider bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">{asset.tag}</span>
                 {getStatusBadge(asset.status)}
                 {asset.isBookable && (
                   <span className="text-xs font-semibold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">Bookable Resource</span>
@@ -315,7 +315,7 @@ export default function AssetDetail() {
         {/* A. Allocation History */}
         <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 shadow-lg flex flex-col">
           <h3 className="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
-            <svg className="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
             </svg>
             Allocation History
@@ -362,7 +362,7 @@ export default function AssetDetail() {
         {/* B. Maintenance History */}
         <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 shadow-lg flex flex-col">
           <h3 className="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
-            <svg className="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
             </svg>
             Maintenance Logs
@@ -426,7 +426,7 @@ export default function AssetDetail() {
                 required
                 value={editForm.name}
                 onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
 
@@ -436,7 +436,7 @@ export default function AssetDetail() {
                 required
                 value={editForm.categoryId}
                 onChange={(e) => setEditForm({ ...editForm, categoryId: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none cursor-pointer"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none cursor-pointer"
               >
                 <option value="">Select Category</option>
                 {categories.map((cat) => (
@@ -451,7 +451,7 @@ export default function AssetDetail() {
                 type="text"
                 value={editForm.serialNumber}
                 onChange={(e) => setEditForm({ ...editForm, serialNumber: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
 
@@ -460,7 +460,7 @@ export default function AssetDetail() {
               <select
                 value={editForm.condition}
                 onChange={(e) => setEditForm({ ...editForm, condition: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none cursor-pointer"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none cursor-pointer"
               >
                 <option value="New">New</option>
                 <option value="Good">Good</option>
@@ -476,7 +476,7 @@ export default function AssetDetail() {
                 required
                 value={editForm.location}
                 onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
 
@@ -486,7 +486,7 @@ export default function AssetDetail() {
                 type="text"
                 value={editForm.photoUrl}
                 onChange={(e) => setEditForm({ ...editForm, photoUrl: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
           </div>
@@ -497,7 +497,7 @@ export default function AssetDetail() {
                 type="checkbox"
                 checked={editForm.isBookable}
                 onChange={(e) => setEditForm({ ...editForm, isBookable: e.target.checked })}
-                className="rounded bg-slate-950 border-slate-800 text-violet-600 focus:ring-0 cursor-pointer w-4 h-4"
+                className="rounded bg-slate-950 border-slate-800 text-indigo-600 focus:ring-0 cursor-pointer w-4 h-4"
               />
               Mark as bookable (employees can book this asset for specific time slots)
             </label>
@@ -513,7 +513,7 @@ export default function AssetDetail() {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-violet-600/10"
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-indigo-600/10"
             >
               Save Changes
             </button>

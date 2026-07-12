@@ -157,7 +157,7 @@ export default function Assets() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-200">
+          <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-sky-300">
             Asset Registry
           </h1>
           <p className="text-slate-400 text-sm mt-1">
@@ -168,7 +168,7 @@ export default function Assets() {
         {isAdminOrManager && (
           <button
             onClick={() => setIsRegisterOpen(true)}
-            className="px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-violet-600/15 active:scale-95 flex items-center gap-2"
+            className="px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-indigo-600/15 active:scale-95 flex items-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -205,7 +205,7 @@ export default function Assets() {
             placeholder="Search by tag, name, or serial..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none placeholder-slate-500 transition-colors"
+            className="w-full pl-9 pr-4 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none placeholder-slate-500 transition-colors"
           />
           <svg className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -218,7 +218,7 @@ export default function Assets() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-300 outline-none cursor-pointer transition-colors"
+            className="px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-300 outline-none cursor-pointer transition-colors"
           >
             <option value="">All Categories</option>
             {categories.map((cat) => (
@@ -230,7 +230,7 @@ export default function Assets() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-300 outline-none cursor-pointer transition-colors"
+            className="px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-300 outline-none cursor-pointer transition-colors"
           >
             <option value="">All Statuses</option>
             <option value="Available">Available</option>
@@ -247,7 +247,7 @@ export default function Assets() {
             <select
               value={departmentFilter}
               onChange={(e) => setDepartmentFilter(e.target.value)}
-              className="px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-300 outline-none cursor-pointer transition-colors"
+              className="px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-300 outline-none cursor-pointer transition-colors"
             >
               <option value="">All Departments</option>
               {departments.map((dept) => (
@@ -262,7 +262,7 @@ export default function Assets() {
               type="checkbox"
               checked={bookableFilter}
               onChange={(e) => setBookableFilter(e.target.checked)}
-              className="rounded bg-slate-950 border-slate-800 text-violet-600 focus:ring-0 cursor-pointer"
+              className="rounded bg-slate-950 border-slate-800 text-indigo-600 focus:ring-0 cursor-pointer"
             />
             Bookable Only
           </label>
@@ -273,7 +273,7 @@ export default function Assets() {
       <div className="bg-slate-900/40 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
         {loading ? (
           <div className="py-20 flex justify-center">
-            <div className="w-10 h-10 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+            <div className="w-10 h-10 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
           </div>
         ) : assets.length === 0 ? (
           <div className="text-center py-20 px-4">
@@ -312,7 +312,7 @@ export default function Assets() {
                     onClick={() => navigate(`/assets/${asset.id}`)}
                     className="hover:bg-slate-800/20 transition-colors cursor-pointer"
                   >
-                    <td className="px-6 py-4 font-bold text-violet-400">{asset.tag}</td>
+                    <td className="px-6 py-4 font-bold text-indigo-400">{asset.tag}</td>
                     <td className="px-6 py-4 font-medium text-slate-200">
                       <div>
                         <p>{asset.name}</p>
@@ -327,7 +327,7 @@ export default function Assets() {
                     <td className="px-6 py-4 text-slate-400">{asset.condition}</td>
                     <td className="px-6 py-4">
                       {asset.isBookable ? (
-                        <span className="text-violet-400 font-semibold text-xs bg-violet-500/10 px-2 py-0.5 rounded border border-violet-500/10">Yes</span>
+                        <span className="text-indigo-400 font-semibold text-xs bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/10">Yes</span>
                       ) : (
                         <span className="text-slate-600 text-xs">No</span>
                       )}
@@ -358,7 +358,7 @@ export default function Assets() {
         <form onSubmit={handleRegisterAsset} className="space-y-4">
           <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800 text-slate-400 text-xs flex items-center justify-between mb-4">
             <span>Asset Tag Assignment</span>
-            <span className="font-bold text-violet-400 italic">Auto-generated upon submission</span>
+            <span className="font-bold text-indigo-400 italic">Auto-generated upon submission</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -370,7 +370,7 @@ export default function Assets() {
                 placeholder="e.g. MacBook Pro M3"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
 
@@ -380,7 +380,7 @@ export default function Assets() {
                 required
                 value={form.categoryId}
                 onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none cursor-pointer"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none cursor-pointer"
               >
                 <option value="">Select Category</option>
                 {categories.map((cat) => (
@@ -396,7 +396,7 @@ export default function Assets() {
                 placeholder="e.g. SN-871465223"
                 value={form.serialNumber}
                 onChange={(e) => setForm({ ...form, serialNumber: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
 
@@ -407,7 +407,7 @@ export default function Assets() {
                 required
                 value={form.acquisitionDate}
                 onChange={(e) => setForm({ ...form, acquisitionDate: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
 
@@ -420,7 +420,7 @@ export default function Assets() {
                 placeholder="e.g. 1499.00"
                 value={form.acquisitionCost}
                 onChange={(e) => setForm({ ...form, acquisitionCost: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
 
@@ -429,7 +429,7 @@ export default function Assets() {
               <select
                 value={form.condition}
                 onChange={(e) => setForm({ ...form, condition: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none cursor-pointer"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none cursor-pointer"
               >
                 <option value="New">New</option>
                 <option value="Good">Good</option>
@@ -446,7 +446,7 @@ export default function Assets() {
                 placeholder="e.g. Head Office, Room 402"
                 value={form.location}
                 onChange={(e) => setForm({ ...form, location: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
 
@@ -457,7 +457,7 @@ export default function Assets() {
                 placeholder="e.g. https://example.com/asset-photo.jpg"
                 value={form.photoUrl}
                 onChange={(e) => setForm({ ...form, photoUrl: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
           </div>
@@ -468,7 +468,7 @@ export default function Assets() {
                 type="checkbox"
                 checked={form.isBookable}
                 onChange={(e) => setForm({ ...form, isBookable: e.target.checked })}
-                className="rounded bg-slate-950 border-slate-800 text-violet-600 focus:ring-0 cursor-pointer w-4 h-4"
+                className="rounded bg-slate-950 border-slate-800 text-indigo-600 focus:ring-0 cursor-pointer w-4 h-4"
               />
               Mark as bookable (employees can book this asset for specific time slots)
             </label>
@@ -484,7 +484,7 @@ export default function Assets() {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-violet-600/10"
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-indigo-600/10"
             >
               Submit Registration
             </button>

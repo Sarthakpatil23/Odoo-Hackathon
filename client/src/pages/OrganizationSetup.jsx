@@ -374,7 +374,7 @@ export default function OrganizationSetup() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-200">
+          <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-sky-300">
             Organization Setup
           </h1>
           <p className="text-slate-400 text-sm mt-1">
@@ -407,7 +407,7 @@ export default function OrganizationSetup() {
           onClick={() => setActiveTab('departments')}
           className={`px-5 py-3 text-sm font-semibold border-b-2 transition-all duration-200 ${
             activeTab === 'departments'
-              ? 'border-violet-500 text-violet-400 bg-violet-500/5'
+              ? 'border-indigo-500 text-indigo-400 bg-indigo-500/5'
               : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/30'
           } rounded-t-xl`}
         >
@@ -417,7 +417,7 @@ export default function OrganizationSetup() {
           onClick={() => setActiveTab('categories')}
           className={`px-5 py-3 text-sm font-semibold border-b-2 transition-all duration-200 ${
             activeTab === 'categories'
-              ? 'border-violet-500 text-violet-400 bg-violet-500/5'
+              ? 'border-indigo-500 text-indigo-400 bg-indigo-500/5'
               : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/30'
           } rounded-t-xl`}
         >
@@ -427,7 +427,7 @@ export default function OrganizationSetup() {
           onClick={() => setActiveTab('employees')}
           className={`px-5 py-3 text-sm font-semibold border-b-2 transition-all duration-200 ${
             activeTab === 'employees'
-              ? 'border-violet-500 text-violet-400 bg-violet-500/5'
+              ? 'border-indigo-500 text-indigo-400 bg-indigo-500/5'
               : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/30'
           } rounded-t-xl`}
         >
@@ -445,7 +445,7 @@ export default function OrganizationSetup() {
               <h2 className="text-xl font-bold text-slate-200">Departments</h2>
               <button
                 onClick={() => handleOpenDeptModal(null)}
-                className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium rounded-xl text-sm transition-all shadow-md shadow-violet-600/10 active:scale-95 flex items-center gap-2"
+                className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white font-medium rounded-xl text-sm transition-all shadow-md shadow-indigo-600/10 active:scale-95 flex items-center gap-2"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -456,7 +456,7 @@ export default function OrganizationSetup() {
 
             {loadingDepts ? (
               <div className="py-12 flex justify-center">
-                <div className="w-8 h-8 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+                <div className="w-8 h-8 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
               </div>
             ) : departments.length === 0 ? (
               <div className="text-center py-16 border border-dashed border-slate-800 rounded-2xl">
@@ -540,7 +540,7 @@ export default function OrganizationSetup() {
               <h2 className="text-xl font-bold text-slate-200">Asset Categories</h2>
               <button
                 onClick={() => handleOpenCatModal(null)}
-                className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium rounded-xl text-sm transition-all shadow-md shadow-violet-600/10 active:scale-95 flex items-center gap-2"
+                className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white font-medium rounded-xl text-sm transition-all shadow-md shadow-indigo-600/10 active:scale-95 flex items-center gap-2"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -551,7 +551,7 @@ export default function OrganizationSetup() {
 
             {loadingCats ? (
               <div className="py-12 flex justify-center">
-                <div className="w-8 h-8 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+                <div className="w-8 h-8 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
               </div>
             ) : categories.length === 0 ? (
               <div className="text-center py-16 border border-dashed border-slate-800 rounded-2xl">
@@ -586,7 +586,7 @@ export default function OrganizationSetup() {
                           <td className="px-6 py-4 font-medium text-slate-200">{cat.name}</td>
                           <td className="px-6 py-4 text-slate-400 max-w-md truncate">
                             {fieldsSummary ? (
-                              <code className="text-xs bg-slate-800/80 px-2 py-1 rounded text-violet-300">
+                              <code className="text-xs bg-slate-800/80 px-2 py-1 rounded text-indigo-300">
                                 {fieldsSummary}
                               </code>
                             ) : (
@@ -631,7 +631,7 @@ export default function OrganizationSetup() {
                     placeholder="Search by name or email..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none placeholder-slate-500 transition-colors"
+                    className="w-full pl-9 pr-4 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none placeholder-slate-500 transition-colors"
                   />
                   <svg className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -642,7 +642,7 @@ export default function OrganizationSetup() {
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value)}
-                  className="px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
+                  className="px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
                 >
                   <option value="">All Roles</option>
                   <option value="Admin">Admin</option>
@@ -655,7 +655,7 @@ export default function OrganizationSetup() {
 
             {loadingEmps ? (
               <div className="py-12 flex justify-center">
-                <div className="w-8 h-8 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+                <div className="w-8 h-8 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
               </div>
             ) : employees.length === 0 ? (
               <div className="text-center py-16 border border-dashed border-slate-800 rounded-2xl">
@@ -690,7 +690,7 @@ export default function OrganizationSetup() {
                           <span
                             className={`inline-block text-xs font-semibold px-2.5 py-0.5 rounded-md border ${
                               emp.role === 'Admin'
-                                ? 'bg-violet-500/20 text-violet-300 border-violet-500/30'
+                                ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'
                                 : emp.role === 'AssetManager'
                                 ? 'bg-blue-500/20 text-blue-300 border-blue-500/30'
                                 : emp.role === 'DepartmentHead'
@@ -772,7 +772,7 @@ export default function OrganizationSetup() {
               placeholder="e.g. Engineering, human Resources"
               value={deptForm.name}
               onChange={(e) => setDeptForm({ ...deptForm, name: e.target.value })}
-              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none transition-colors"
+              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none transition-colors"
             />
           </div>
 
@@ -783,7 +783,7 @@ export default function OrganizationSetup() {
             <select
               value={deptForm.headId}
               onChange={(e) => setDeptForm({ ...deptForm, headId: e.target.value })}
-              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
+              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
             >
               <option value="">Unassigned</option>
               {employees
@@ -803,7 +803,7 @@ export default function OrganizationSetup() {
             <select
               value={deptForm.parentId}
               onChange={(e) => setDeptForm({ ...deptForm, parentId: e.target.value })}
-              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
+              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
             >
               <option value="">None (Top Level)</option>
               {departments
@@ -824,7 +824,7 @@ export default function OrganizationSetup() {
             <select
               value={deptForm.status}
               onChange={(e) => setDeptForm({ ...deptForm, status: e.target.value })}
-              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
+              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
             >
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
@@ -841,7 +841,7 @@ export default function OrganizationSetup() {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-violet-600/10"
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-indigo-600/10"
             >
               {editingDept ? 'Save Changes' : 'Create Department'}
             </button>
@@ -898,7 +898,7 @@ export default function OrganizationSetup() {
               placeholder="e.g. Electronics, Office furniture, Company Vehicles"
               value={catName}
               onChange={(e) => setCatName(e.target.value)}
-              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none transition-colors"
+              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none transition-colors"
             />
           </div>
 
@@ -910,7 +910,7 @@ export default function OrganizationSetup() {
               <button
                 type="button"
                 onClick={handleAddField}
-                className="text-xs text-violet-400 hover:text-violet-300 font-semibold flex items-center gap-1.5"
+                className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1.5"
               >
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -931,14 +931,14 @@ export default function OrganizationSetup() {
                     placeholder="Field name (e.g. warranty)"
                     value={field.key}
                     onChange={(e) => handleFieldChange(idx, 'key', e.target.value)}
-                    className="flex-1 px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                    className="flex-1 px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
                   />
                   <input
                     type="text"
                     placeholder="Default Value (e.g. 12)"
                     value={field.value}
                     onChange={(e) => handleFieldChange(idx, 'value', e.target.value)}
-                    className="flex-1 px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                    className="flex-1 px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
                   />
                   <button
                     type="button"
@@ -965,7 +965,7 @@ export default function OrganizationSetup() {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-violet-600/10"
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-indigo-600/10"
             >
               {editingCat ? 'Save Changes' : 'Create Category'}
             </button>
@@ -1018,7 +1018,7 @@ export default function OrganizationSetup() {
             <select
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value)}
-              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
+              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
             >
               <option value="Employee">Employee</option>
               <option value="DepartmentHead">Department Head</option>
@@ -1035,7 +1035,7 @@ export default function OrganizationSetup() {
             </button>
             <button
               onClick={handleSavePromotion}
-              className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-violet-600/10"
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-indigo-600/10"
             >
               Update Role
             </button>
@@ -1057,7 +1057,7 @@ export default function OrganizationSetup() {
             <select
               value={selectedDeptId}
               onChange={(e) => setSelectedDeptId(e.target.value)}
-              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
+              className="w-full px-4 py-2.5 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none transition-colors cursor-pointer"
             >
               <option value="">Unassigned (No Department)</option>
               {departments
@@ -1079,7 +1079,7 @@ export default function OrganizationSetup() {
             </button>
             <button
               onClick={handleSaveReassignment}
-              className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-violet-600/10"
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-indigo-600/10"
             >
               Update Department
             </button>

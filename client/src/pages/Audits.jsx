@@ -152,7 +152,7 @@ export default function Audits() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-indigo-200">
+          <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-sky-300">
             Physical Audits
           </h1>
           <p className="text-slate-400 text-sm mt-1">
@@ -163,7 +163,7 @@ export default function Audits() {
         {isAdminOrManager && (
           <button
             onClick={() => setIsCreateOpen(true)}
-            className="px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-violet-600/15 active:scale-95 flex items-center gap-2"
+            className="px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white font-semibold rounded-xl text-sm transition-all shadow-md shadow-indigo-600/15 active:scale-95 flex items-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -200,7 +200,7 @@ export default function Audits() {
           
           {loadingCycles ? (
             <div className="py-12 flex justify-center">
-              <div className="w-8 h-8 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+              <div className="w-8 h-8 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
             </div>
           ) : cycles.length === 0 ? (
             <div className="text-center py-12 border border-dashed border-slate-800 rounded-xl bg-slate-900/10">
@@ -214,7 +214,7 @@ export default function Audits() {
                   onClick={() => handleViewItems(cy)}
                   className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                     selectedCycle?.id === cy.id
-                      ? 'bg-violet-600/10 border-violet-500/30'
+                      ? 'bg-indigo-600/10 border-indigo-500/30'
                       : 'bg-slate-900/40 border-slate-800 hover:border-slate-700'
                   }`}
                 >
@@ -245,7 +245,7 @@ export default function Audits() {
                 <div>
                   <h3 className="text-lg font-bold text-slate-200">{selectedCycle.scope} Checklist</h3>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    Cycle Status: <span className="font-semibold text-violet-400">{selectedCycle.status}</span>
+                    Cycle Status: <span className="font-semibold text-indigo-400">{selectedCycle.status}</span>
                   </p>
                 </div>
 
@@ -261,7 +261,7 @@ export default function Audits() {
 
               {loadingItems ? (
                 <div className="py-20 flex justify-center">
-                  <div className="w-10 h-10 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+                  <div className="w-10 h-10 border-4 border-indigo-500/20 border-t-indigo-600 rounded-full animate-spin" />
                 </div>
               ) : auditItems.length === 0 ? (
                 <div className="text-center py-12">
@@ -282,7 +282,7 @@ export default function Audits() {
                     <tbody className="divide-y divide-slate-800/40">
                       {auditItems.map((item) => (
                         <tr key={item.id} className="hover:bg-slate-800/10 transition-colors">
-                          <td className="px-4 py-3 font-bold text-violet-400">{item.asset?.tag}</td>
+                          <td className="px-4 py-3 font-bold text-indigo-400">{item.asset?.tag}</td>
                           <td className="px-4 py-3 text-slate-200">{item.asset?.name}</td>
                           <td className="px-4 py-3 text-slate-400">{item.asset?.location}</td>
                           <td className="px-4 py-3 text-xs text-slate-500">{item.auditor?.name}</td>
@@ -291,7 +291,7 @@ export default function Audits() {
                               <select
                                 value={item.result}
                                 onChange={(e) => handleResultChange(item.id, e.target.value)}
-                                className="px-2.5 py-1 text-xs bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-lg text-slate-300 outline-none cursor-pointer"
+                                className="px-2.5 py-1 text-xs bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-lg text-slate-300 outline-none cursor-pointer"
                               >
                                 <option value="Pending">Pending</option>
                                 <option value="Verified">Verified</option>
@@ -343,7 +343,7 @@ export default function Audits() {
               placeholder="e.g. Q3 Electronics Audit, Head Office Check"
               value={createForm.scope}
               onChange={(e) => setCreateForm({ ...createForm, scope: e.target.value })}
-              className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+              className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
             />
           </div>
 
@@ -355,7 +355,7 @@ export default function Audits() {
                 required
                 value={createForm.startDate}
                 onChange={(e) => setCreateForm({ ...createForm, startDate: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
             <div>
@@ -365,7 +365,7 @@ export default function Audits() {
                 required
                 value={createForm.endDate}
                 onChange={(e) => setCreateForm({ ...createForm, endDate: e.target.value })}
-                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-violet-500 rounded-xl text-slate-100 outline-none"
+                className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-xl text-slate-100 outline-none"
               />
             </div>
           </div>
@@ -379,7 +379,7 @@ export default function Audits() {
                     type="checkbox"
                     checked={createForm.auditorIds.includes(emp.id)}
                     onChange={() => handleAuditorToggle(emp.id)}
-                    className="rounded bg-slate-950 border-slate-800 text-violet-600 focus:ring-0 cursor-pointer"
+                    className="rounded bg-slate-950 border-slate-800 text-indigo-600 focus:ring-0 cursor-pointer"
                   />
                   <span>{emp.name} ({emp.role})</span>
                 </label>
@@ -397,7 +397,7 @@ export default function Audits() {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-violet-600/10"
+              className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-sky-500 hover:from-indigo-500 hover:to-sky-400 text-white text-sm font-semibold rounded-xl transition-all shadow-md shadow-indigo-600/10"
             >
               Create Cycle
             </button>
@@ -435,7 +435,7 @@ export default function Audits() {
                 <tbody className="divide-y divide-slate-800/40">
                   {discrepancies.map((d) => (
                     <tr key={d.id} className="text-xs hover:bg-slate-800/10">
-                      <td className="px-4 py-2.5 font-bold text-violet-400">{d.asset?.tag}</td>
+                      <td className="px-4 py-2.5 font-bold text-indigo-400">{d.asset?.tag}</td>
                       <td className="px-4 py-2.5 text-slate-200">{d.asset?.name}</td>
                       <td className="px-4 py-2.5 text-slate-400">{d.auditor?.name}</td>
                       <td className="px-4 py-2.5 text-right">
