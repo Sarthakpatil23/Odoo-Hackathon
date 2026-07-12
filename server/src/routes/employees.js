@@ -6,8 +6,8 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 // GET /api/employees
-// Admin role required
-router.get('/', authenticate, authorize('Admin'), async (req, res) => {
+// Admin and AssetManager role required
+router.get('/', authenticate, authorize('Admin', 'AssetManager'), async (req, res) => {
   const { role, status, search } = req.query;
 
   try {

@@ -23,9 +23,14 @@ export function AuthProvider({ children }) {
       try {
         const res = await api.get('/me');
         // /api/me returns { user: { id, role } } from the decoded token
-        // Merge with any saved user info for name/email
         const savedUser = JSON.parse(localStorage.getItem('user') || 'null');
-        setUser(savedUser || res.data.user);
+        if (savedUser && res.data?.user) {
+          savedUser.role = res.data.user.role;
+          localStorage.setItem('user', JSON.stringify(savedUser));
+          setUser(savedUser);
+        } else {
+          setUser(res.data?.user || null);
+        }
         setToken(savedToken);
       } catch {
         // Token expired or invalid — clear everything

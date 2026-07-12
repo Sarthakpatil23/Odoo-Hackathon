@@ -5,59 +5,40 @@ import { Card } from '../components/shared/Card';
 import { Button } from '../components/ui/button';
 import { Logo } from '../components/shared/Logo';
 import api from '../api/axios';
-import { Building2, Shield, User, Users } from 'lucide-react';
 
-export default function Login() {
+export default function Signup() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleMockLogin = async (role) => {
-    setError('');
-    let email = '';
-    const password = 'password123';
-
-    if (role === 'Admin') email = 'admin@assetflow.com';
-    else if (role === 'AssetManager') email = 'manager@assetflow.com';
-    else if (role === 'DepartmentHead') email = 'head@assetflow.com';
-    else if (role === 'Employee') email = 'dev1@assetflow.com';
-
-    try {
-      const res = await api.post('/auth/login', { email, password });
-      const { token, user } = res.data;
-      login(token, user);
-      navigate('/dashboard');
-    } catch (err) {
-      console.error('Quick login error, falling back to local mock session:', err);
-      const mockToken = `mock-token-${role.toLowerCase()}-${Date.now()}`;
-      const mockUser = {
-        id: `usr-${role.toLowerCase()}`,
-        name: `${role} User`,
-        email: `${role.toLowerCase()}@assetflow.com`,
-        role: role
-      };
-      login(mockToken, mockUser);
-      navigate('/dashboard');
-    }
-  };
-
-  const handleCustomLogin = async (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
+    if (!name || !email || !password) {
       setError('Please fill in all fields.');
       return;
     }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters.');
+      return;
+    }
+
     setError('');
+    setLoading(true);
+
     try {
-      const res = await api.post('/auth/login', { email, password });
+      const res = await api.post('/auth/signup', { name, email, password });
       const { token, user } = res.data;
       login(token, user);
       navigate('/dashboard');
     } catch (err) {
-      console.error('Login error:', err);
-      setError(err.response?.data?.error || 'Invalid credentials or connection error.');
+      console.error('Signup error:', err);
+      setError(err.response?.data?.error || 'Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,32 +58,46 @@ export default function Login() {
           <span className="hover:text-foreground cursor-pointer transition-colors">Pricing</span>
           <span className="hover:text-foreground cursor-pointer transition-colors">Docs</span>
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm" onClick={() => handleMockLogin('Employee')}>
-            Guest Access
-          </Button>
-          <Button variant="default" size="sm" onClick={() => handleMockLogin('Admin')}>
-            Deploy Now
-          </Button>
+        <div>
+          <Link to="/login">
+            <Button variant="ghost" size="sm">
+              Sign In
+            </Button>
+          </Link>
         </div>
       </header>
 
-      {/* Main hero & login card */}
+      {/* Main signup form card */}
       <main className="flex-1 flex flex-col items-center justify-center px-6 py-12 z-10">
         <div className="w-full max-w-[440px] space-y-8">
           {/* Hero text */}
           <div className="text-center space-y-2">
             <div className="text-[10px] font-mono tracking-[0.2em] text-muted-foreground uppercase">
-              FOR MODERN ENTERPRISES
+              START MANAGING ASSETS
             </div>
             <h1 className="text-3xl md:text-4xl font-medium tracking-tight text-foreground">
-              Track every asset.<br />Manage every space.
+              Create your account
             </h1>
           </div>
 
-          {/* Login Card */}
+          {/* Registration Card */}
           <Card className="bg-card/40 backdrop-blur-md p-6 border border-border rounded-lg space-y-6">
-            <form onSubmit={handleCustomLogin} className="space-y-4">
+            <form onSubmit={handleSignupSubmit} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-medium text-muted-foreground" htmlFor="name">
+                  Full Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full bg-black/50 border border-border focus:border-border-strong focus:ring-1 focus:ring-white/10 rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground-2 outline-none transition-all"
+                  required
+                />
+              </div>
+
               <div className="space-y-1">
                 <label className="text-xs font-medium text-muted-foreground" htmlFor="email">
                   Email Address
@@ -114,11 +109,13 @@ export default function Login() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-black/50 border border-border focus:border-border-strong focus:ring-1 focus:ring-white/10 rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground-2 outline-none transition-all"
+                  required
                 />
               </div>
+
               <div className="space-y-1">
                 <label className="text-xs font-medium text-muted-foreground" htmlFor="password">
-                  Password
+                  Password (6+ characters)
                 </label>
                 <input
                   id="password"
@@ -127,67 +124,21 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-black/50 border border-border focus:border-border-strong focus:ring-1 focus:ring-white/10 rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground-2 outline-none transition-all"
+                  required
                 />
               </div>
 
               {error && <p className="text-xs text-danger">{error}</p>}
 
-              <Button type="submit" variant="default" className="w-full">
-                Continue with Email
+              <Button type="submit" variant="default" className="w-full" disabled={loading}>
+                {loading ? 'Creating Account...' : 'Create Account'}
               </Button>
             </form>
 
-            <div className="relative flex py-1 items-center">
-              <div className="flex-grow border-t border-border"></div>
-              <span className="flex-shrink mx-4 text-[10px] font-mono text-muted-foreground-2 uppercase">
-                Or Quick Login (Testing)
-              </span>
-              <div className="flex-grow border-t border-border"></div>
-            </div>
-
-            {/* Quick login grid */}
-            <div className="grid grid-cols-2 gap-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => handleMockLogin('Admin')}
-                className="justify-start gap-2 text-xs"
-              >
-                <Shield size={12} className="text-muted-foreground" />
-                <span>Admin</span>
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => handleMockLogin('AssetManager')}
-                className="justify-start gap-2 text-xs"
-              >
-                <Building2 size={12} className="text-muted-foreground" />
-                <span>Asset Mgr</span>
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => handleMockLogin('DepartmentHead')}
-                className="justify-start gap-2 text-xs"
-              >
-                <Users size={12} className="text-muted-foreground" />
-                <span>Dept Head</span>
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => handleMockLogin('Employee')}
-                className="justify-start gap-2 text-xs"
-              >
-                <User size={12} className="text-muted-foreground" />
-                <span>Employee</span>
-              </Button>
-            </div>
-            <div className="text-center text-xs text-muted-foreground pt-1">
-              Don't have an account?{' '}
-              <Link to="/signup" className="text-foreground hover:underline">
-                Create one
+            <div className="text-center text-xs text-muted-foreground">
+              Already have an account?{' '}
+              <Link to="/login" className="text-foreground hover:underline">
+                Sign in
               </Link>
             </div>
           </Card>

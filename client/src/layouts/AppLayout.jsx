@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { Logo } from '../components/shared/Logo';
 import {
   LayoutDashboard,
   Building,
@@ -74,9 +75,7 @@ export default function AppLayout() {
       {/* Workspace Switcher Row */}
       <div className="px-4 py-3 flex items-center justify-between hover:bg-card-hover cursor-pointer transition-colors border-b border-border">
         <div className="flex items-center gap-2 min-w-0">
-          <div className="h-5 w-5 rounded bg-primary text-primary-foreground flex items-center justify-center font-bold text-xs shrink-0">
-            A
-          </div>
+          <Logo className="h-5 w-5" />
           <span className="text-sm font-medium text-foreground truncate">AssetFlow</span>
           <span className="border border-border rounded-full px-1.5 py-0.5 text-[10px] text-muted-foreground shrink-0 font-sans tracking-wide">
             {user?.role || 'Hobby'}

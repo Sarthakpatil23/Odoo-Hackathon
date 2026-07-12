@@ -7,6 +7,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  useDroppable,
 } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -587,8 +588,12 @@ function CardMenu({ ticket, onAction }) {
 
 // ─── KANBAN COLUMN ────────────────────────────────────────────────────────────
 function KanbanColumn({ col, tickets, isOver, isLoading, onMenuAction, isManager }) {
+  const { setNodeRef } = useDroppable({
+    id: col.id,
+  });
+
   return (
-    <div className="flex flex-col shrink-0 w-72 border-r border-border last:border-r-0 bg-transparent">
+    <div ref={setNodeRef} className="flex flex-col shrink-0 w-72 border-r border-border last:border-r-0 bg-transparent">
       {/* Column Header */}
       <div className="px-4 py-3 border-b border-border flex items-center justify-between select-none">
         <span className="text-sm font-medium text-foreground">{col.label}</span>
@@ -883,7 +888,7 @@ export default function Maintenance() {
     setOverColId(findColId(over.id));
   };
 
-  const handleDragEnd = ({ active, over }) => {
+  const handleDragEnd = async ({ active, over }) => {
     const drag = activeDrag;
     setActiveDrag(null);
     setOverColId(null);
@@ -901,7 +906,7 @@ export default function Maintenance() {
 
     // Enforce sequential moves (must be exactly +1 or -1)
     if (Math.abs(toIdx - fromIdx) > 1) {
-      toast('Approve this request first.');
+      toast('Please move requests sequentially stage-by-stage.');
       return;
     }
 
@@ -911,20 +916,22 @@ export default function Maintenance() {
       return;
     }
 
-    // Determine state transition handler based on from/to IDs
+    // Determine state transition handler based on from/to IDs and update database instantly
     if (fromColId === 'Pending' && toColId === 'Approved') {
-      setApproveTarget(ticket);
+      toast(`Approving maintenance request for ${ticket.asset?.tag || 'Asset'}...`);
+      await execTransition(ticket.id, 'approve');
     } else if (fromColId === 'Approved' && toColId === 'TechnicianAssigned') {
-      setAssignTarget(ticket);
+      const techName = user?.name || 'Default Tech';
+      toast(`Assigning ${techName} to ${ticket.asset?.tag || 'Asset'}...`);
+      await execTransition(ticket.id, 'assign', { technician: techName });
     } else if (fromColId === 'TechnicianAssigned' && toColId === 'InProgress') {
-      // Direct drag transition
-      execTransition(ticket.id, 'start');
-      toast(`${ticket.asset?.tag || 'Asset'} marked In Progress`);
+      toast(`Starting maintenance for ${ticket.asset?.tag || 'Asset'}...`);
+      await execTransition(ticket.id, 'start');
     } else if (fromColId === 'InProgress' && toColId === 'Resolved') {
-      setResolveTarget(ticket);
+      toast(`Resolving maintenance request for ${ticket.asset?.tag || 'Asset'}...`);
+      await execTransition(ticket.id, 'resolve');
     } else {
-      // Demote / Backwards drag - API blocks this, so we disallow cleanly
-      toast('Approve this request first.');
+      toast('Invalid stage transition.', 'danger');
     }
   };
 

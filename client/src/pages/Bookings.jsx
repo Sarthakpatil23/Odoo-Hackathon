@@ -154,13 +154,23 @@ function GridSkeleton() {
 
 // ─── BOOKING BLOCK ─────────────────────────────────────────────────────────
 
-function BookingBlock({ booking }) {
+function BookingBlock({ booking, onDragStart, onResizeStart }) {
   const status = bookingStatus(booking);
   const isOngoing = status === 'ongoing';
   const isCancelled = status === 'cancelled';
 
   return (
-    <div className="bg-card border border-border rounded-md p-2 mb-1 last:mb-0 select-none">
+    <div
+      draggable={!isCancelled}
+      onDragStart={(e) => onDragStart(e, booking.id)}
+      className={cn(
+        "relative border rounded-md p-2 mb-1 last:mb-0 select-none cursor-grab active:cursor-grabbing pb-3 transition-colors",
+        isCancelled ? "bg-muted/15 border-border/40 text-muted-foreground line-through" :
+        status === 'ongoing' ? "bg-info/10 border-info/30 text-info" :
+        status === 'upcoming' ? "bg-warning/10 border-warning/30 text-warning" :
+        status === 'completed' ? "bg-success/10 border-success/30 text-success" : "bg-card border-border text-foreground"
+      )}
+    >
       <div className="flex items-start gap-2">
         {/* Pulsing dot for ongoing, static for others */}
         <span
@@ -169,22 +179,34 @@ function BookingBlock({ booking }) {
             isOngoing   ? 'bg-info animate-pulse'      :
             isCancelled ? 'bg-neutral-state'            :
             status === 'upcoming'  ? 'bg-warning'       :
-            status === 'completed' ? 'bg-neutral-state' : 'bg-neutral-state'
+            status === 'completed' ? 'bg-success' : 'bg-neutral-state'
           )}
           aria-hidden="true"
         />
         <div className="min-w-0 flex-1">
-          <p className={cn(
-            'text-sm text-foreground leading-snug truncate',
-            isCancelled && 'line-through text-muted-foreground'
-          )}>
-            {booking.employee?.name || 'Unknown'} · {formatTimeRange(booking.startTime, booking.endTime)}
+          <p className="text-sm font-semibold leading-none truncate">
+            {booking.employee?.name || 'Unknown'}
+          </p>
+          <p className="font-mono text-[10px] opacity-80 mt-1">
+            {formatTimeRange(booking.startTime, booking.endTime)}
           </p>
           {booking.purpose && (
-            <p className="text-xs text-muted-foreground mt-0.5 truncate">{booking.purpose}</p>
+            <p className="text-xs opacity-75 mt-0.5 truncate">{booking.purpose}</p>
           )}
         </div>
       </div>
+      
+      {/* Resizer drag handle at the bottom of the card */}
+      {!isCancelled && status !== 'completed' && (
+        <div
+          className="absolute bottom-0 left-0 right-0 h-1.5 cursor-ns-resize hover:bg-white/10 active:bg-white/20 transition-colors"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            onResizeStart(booking.id, e);
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -279,6 +301,10 @@ export default function Bookings() {
   const [dragStart, setDragStart] = useState(null); // hour integer
   const [dragEnd, setDragEnd]     = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+
+  // Resizing state
+  const [resizingBookingId, setResizingBookingId] = useState(null);
+  const [resizeEndHour, setResizeEndHour] = useState(null);
 
   // Booking popover / form state
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -521,6 +547,122 @@ export default function Bookings() {
     }
   };
 
+  // ── Update booking start/end times (Drag/Resize) ───────────────────────────
+  const handleUpdateBookingTime = async (bookingId, startTime, endTime) => {
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+    if (isMockMode) {
+      const targetBooking = localBookings.find(b => b.id === bookingId);
+      if (!targetBooking) return;
+
+      const start = new Date(startTime);
+      const end = new Date(endTime);
+
+      const conflict = localBookings.find(b => {
+        if (b.id === bookingId) return false;
+        if (b.assetId !== targetBooking.assetId) return false;
+        if (b.status === 'Cancelled') return false;
+        const bStart = new Date(b.startTime);
+        const bEnd = new Date(b.endTime);
+        return bStart < end && bEnd > start;
+      });
+
+      if (conflict) {
+        toast('Time slot overlaps with an existing booking.', 'danger');
+        return;
+      }
+
+      setLocalBookings(prev =>
+        prev.map(b =>
+          b.id === bookingId
+            ? { ...b, startTime, endTime }
+            : b
+        )
+      );
+      toast('Booking rescheduled.');
+      return;
+    }
+
+    try {
+      await api.patch(`/bookings/${bookingId}`, { startTime, endTime });
+      toast('Booking rescheduled.');
+      await fetchBookings();
+    } catch (err) {
+      if (err.response?.status === 409) {
+        toast('Time slot overlaps with an existing booking.', 'danger');
+      } else {
+        toast(err.response?.data?.error || 'Failed to reschedule booking.', 'danger');
+      }
+    }
+  };
+
+  // ── Drag and Drop handlers ────────────────────────────────────────────────
+  const handleBookingDragStart = (e, bookingId) => {
+    e.dataTransfer.setData('text/plain', bookingId);
+  };
+
+  const handleBookingDrop = async (e, targetHour) => {
+    e.preventDefault();
+    const bookingId = e.dataTransfer.getData('text/plain');
+    if (!bookingId) return;
+
+    const targetBooking = bookings.find(b => b.id === bookingId);
+    if (!targetBooking) return;
+
+    const start = new Date(targetBooking.startTime);
+    const end = new Date(targetBooking.endTime);
+    const durationHours = end.getHours() - start.getHours();
+
+    const newStart = new Date(start);
+    newStart.setHours(targetHour, 0, 0, 0);
+    const newEnd = new Date(newStart);
+    newEnd.setHours(targetHour + durationHours, 0, 0, 0);
+
+    await handleUpdateBookingTime(bookingId, newStart.toISOString(), newEnd.toISOString());
+  };
+
+  // ── Resize / Stretch handlers ─────────────────────────────────────────────
+  const handleResizeStart = (bookingId, e) => {
+    setResizingBookingId(bookingId);
+    setResizeEndHour(null);
+  };
+
+  const handleHourMouseEnterForResize = (hour) => {
+    if (!resizingBookingId) return;
+    setResizeEndHour(hour + 1);
+  };
+
+  const handleResizeEnd = async () => {
+    if (!resizingBookingId || resizeEndHour === null) return;
+    const bookingId = resizingBookingId;
+    const endHour = resizeEndHour;
+    setResizingBookingId(null);
+    setResizeEndHour(null);
+
+    const targetBooking = bookings.find(b => b.id === bookingId);
+    if (!targetBooking) return;
+
+    const start = new Date(targetBooking.startTime);
+    const newEnd = new Date(start);
+    newEnd.setHours(endHour, 0, 0, 0);
+
+    if (newEnd <= start) {
+      toast('Invalid duration. End time must be after start time.', 'danger');
+      return;
+    }
+
+    await handleUpdateBookingTime(bookingId, start.toISOString(), newEnd.toISOString());
+  };
+
+  const handleMouseUpGlobal = () => {
+    if (resizingBookingId) {
+      handleResizeEnd();
+    } else {
+      handleGridMouseUp();
+    }
+  };
+
   // ── Navigate date ─────────────────────────────────────────────────────────
   const shiftDate = (delta) => {
     const d = new Date(`${selectedDate}T12:00:00`);
@@ -541,7 +683,7 @@ export default function Bookings() {
 
   // ── RENDER ────────────────────────────────────────────────────────────────
   return (
-    <div className="flex flex-col gap-6" onMouseUp={handleGridMouseUp}>
+    <div className="flex flex-col gap-6" onMouseUp={handleMouseUpGlobal}>
 
       {/* ── 1. Page header ───────────────────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -675,7 +817,10 @@ export default function Bookings() {
               )}
               role="grid"
               aria-label="Booking timeline"
-              onMouseLeave={() => { if (isDragging) { setIsDragging(false); setPopoverOpen(true); } }}
+              onMouseLeave={() => { 
+                if (isDragging) { setIsDragging(false); setPopoverOpen(true); } 
+                if (resizingBookingId) { setResizingBookingId(null); setResizeEndHour(null); }
+              }}
             >
               {/* Today indicator strip */}
               {isToday && (
@@ -696,10 +841,15 @@ export default function Bookings() {
                     className={cn(
                       'flex border-b border-border last:border-b-0 transition-colors group',
                       selected ? 'bg-white/[0.04]' : 'hover:bg-white/[0.02]',
-                      !isDragging && 'cursor-crosshair'
+                      !isDragging && !resizingBookingId && 'cursor-crosshair'
                     )}
                     onMouseDown={() => handleHourMouseDown(hour)}
-                    onMouseEnter={() => handleHourMouseEnter(hour)}
+                    onMouseEnter={() => {
+                      handleHourMouseEnter(hour);
+                      handleHourMouseEnterForResize(hour);
+                    }}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => handleBookingDrop(e, hour)}
                   >
                     {/* Hour label column */}
                     <div className="w-24 shrink-0 px-3 py-3 border-r border-border flex items-start select-none">
@@ -717,7 +867,12 @@ export default function Bookings() {
                         </span>
                       )}
                       {hourBookings.map(b => (
-                        <BookingBlock key={b.id} booking={b} />
+                        <BookingBlock 
+                          key={b.id} 
+                          booking={b} 
+                          onDragStart={handleBookingDragStart}
+                          onResizeStart={handleResizeStart}
+                        />
                       ))}
                     </div>
                   </div>

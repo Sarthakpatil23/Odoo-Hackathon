@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('../prisma');
+const { authenticate } = require('../middleware/auth');
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -126,6 +127,12 @@ router.post('/login', async (req, res) => {
     console.error('[login error]', err);
     return res.status(500).json({ error: 'Internal server error.' });
   }
+});
+
+// GET /api/auth/me
+// Returns current authenticated user metadata
+router.get('/me', authenticate, (req, res) => {
+  res.json({ user: req.user });
 });
 
 module.exports = router;

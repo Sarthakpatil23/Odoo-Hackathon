@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { Logo } from '../components/shared/Logo';
 import { Card } from '../components/shared/Card';
 import { StatusDot } from '../components/shared/StatusDot';
 import { Button } from '../components/ui/button';
@@ -66,9 +67,7 @@ export default function Landing() {
       {/* Navigation Header */}
       <header className="px-6 md:px-10 py-4 flex items-center justify-between border-b border-border bg-background/50 backdrop-blur-md sticky top-0 z-50 select-none relative">
         <div className="flex items-center gap-2">
-          <div className="h-5 w-5 bg-foreground text-background flex items-center justify-center font-bold text-[10px] rounded-[3px] select-none">
-            AF
-          </div>
+          <Logo className="h-5 w-5" />
           <span className="font-semibold text-sm tracking-tight text-foreground select-none">AssetFlow</span>
         </div>
         
@@ -187,9 +186,7 @@ export default function Landing() {
             <div className="space-y-4">
               <div className="flex items-center justify-between p-1.5 border-b border-border">
                 <div className="flex items-center gap-2 min-w-0">
-                  <div className="h-4 w-4 bg-foreground text-background flex items-center justify-center font-bold text-[9px] rounded-[2px] shrink-0">
-                    AF
-                  </div>
+                  <Logo className="h-4 w-4" />
                   <span className="text-xs font-semibold truncate text-foreground">AssetFlow</span>
                 </div>
                 <ChevronDown size={12} className="text-muted-foreground" />

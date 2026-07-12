@@ -4,6 +4,8 @@ import { Card } from '../components/shared/Card';
 import { StatusDot } from '../components/shared/StatusDot';
 import { Skeleton } from '../components/shared/Skeleton';
 import { Button } from '../components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import api from '../api/axios';
 import {
   Info,
   Inbox,
@@ -20,105 +22,161 @@ import {
 const DATA_BY_ROLE = {
   Admin: {
     kpis: [
-      { label: 'Assets Available', value: 128, icon: Package },
-      { label: 'Assets Allocated', value: 76, icon: UserCheck },
-      { label: 'Maintenance Today', value: 4, icon: Wrench },
-      { label: 'Active Bookings', value: 9, icon: Calendar },
-      { label: 'Pending Transfers', value: 3, icon: ArrowLeftRight },
-      { label: 'Upcoming Returns', value: 12, icon: Clock },
+      { label: 'Assets Available', value: 12, icon: Package },
+      { label: 'Assets Allocated', value: 3, icon: UserCheck },
+      { label: 'Maintenance Today', value: 2, icon: Wrench },
+      { label: 'Active Bookings', value: 4, icon: Calendar },
+      { label: 'Pending Transfers', value: 1, icon: ArrowLeftRight },
+      { label: 'Upcoming Returns', value: 1, icon: Clock },
     ],
     overdue: [
-      { tag: 'AF-0043', name: 'Aarav Patel', days: 5 },
-      { tag: 'AF-0129', name: 'Sarah Connor', days: 3 },
-      { tag: 'AF-0098', name: 'John Doe', days: 1 },
+      { tag: 'AF-0001', name: 'David Dev', days: 5 },
     ],
     activity: [
-      { tag: 'AF-0114', status: 'info', text: 'allocated to Priya Shah, IT Department', time: '10:42 AM' },
-      { tag: 'Room B2', status: 'info', text: 'booking confirmed, 2:00–3:00 PM', time: '09:15 AM' },
-      { tag: 'AF-0062', status: 'success', text: 'maintenance resolved', time: 'Yesterday' },
+      { tag: 'Asset', status: 'info', text: 'allocated to David Dev', time: '10:42 AM' },
+      { tag: 'Booking', status: 'info', text: 'confirmed Room B2, 10:00 AM', time: '09:15 AM' },
     ]
   },
   AssetManager: {
     kpis: [
-      { label: 'Assets Available', value: 128, icon: Package },
-      { label: 'Assets Allocated', value: 76, icon: UserCheck },
-      { label: 'Maintenance Today', value: 4, icon: Wrench },
-      { label: 'Active Bookings', value: 9, icon: Calendar },
-      { label: 'Pending Transfers', value: 3, icon: ArrowLeftRight },
-      { label: 'Upcoming Returns', value: 12, icon: Clock },
+      { label: 'Assets Available', value: 12, icon: Package },
+      { label: 'Assets Allocated', value: 3, icon: UserCheck },
+      { label: 'Maintenance Today', value: 2, icon: Wrench },
+      { label: 'Active Bookings', value: 4, icon: Calendar },
+      { label: 'Pending Transfers', value: 1, icon: ArrowLeftRight },
+      { label: 'Upcoming Returns', value: 1, icon: Clock },
     ],
     overdue: [
-      { tag: 'AF-0043', name: 'Aarav Patel', days: 5 },
-      { tag: 'AF-0129', name: 'Sarah Connor', days: 3 },
-      { tag: 'AF-0098', name: 'John Doe', days: 1 },
+      { tag: 'AF-0001', name: 'David Dev', days: 5 },
     ],
     activity: [
-      { tag: 'AF-0114', status: 'info', text: 'allocated to Priya Shah, IT Department', time: '10:42 AM' },
-      { tag: 'Room B2', status: 'info', text: 'booking confirmed, 2:00–3:00 PM', time: '09:15 AM' },
-      { tag: 'AF-0062', status: 'success', text: 'maintenance resolved', time: 'Yesterday' },
+      { tag: 'Asset', status: 'info', text: 'allocated to David Dev', time: '10:42 AM' },
+      { tag: 'Booking', status: 'info', text: 'confirmed Room B2, 10:00 AM', time: '09:15 AM' },
     ]
   },
   DepartmentHead: {
     kpis: [
-      { label: 'Assets Available', value: 42, icon: Package },
-      { label: 'Assets Allocated', value: 24, icon: UserCheck },
+      { label: 'Assets Available', value: 12, icon: Package },
+      { label: 'Assets Allocated', value: 2, icon: UserCheck },
       { label: 'Maintenance Today', value: 1, icon: Wrench },
-      { label: 'Active Bookings', value: 2, icon: Calendar },
+      { label: 'Active Bookings', value: 1, icon: Calendar },
       { label: 'Pending Transfers', value: 1, icon: ArrowLeftRight },
-      { label: 'Upcoming Returns', value: 3, icon: Clock },
+      { label: 'Upcoming Returns', value: 0, icon: Clock },
     ],
-    overdue: [
-      { tag: 'AF-0043', name: 'Aarav Patel', days: 5 },
-    ],
+    overdue: [],
     activity: [
-      { tag: 'AF-0114', status: 'info', text: 'allocated to Priya Shah, IT Department', time: '10:42 AM' },
-      { tag: 'Room B2', status: 'info', text: 'booking confirmed, 2:00–3:00 PM', time: '09:15 AM' },
+      { tag: 'Asset', status: 'info', text: 'allocated to Emily Tester', time: '10:42 AM' },
     ]
   },
   Employee: {
     kpis: [
-      { label: 'Assets Available', value: 3, icon: Package },
-      { label: 'Assets Allocated', value: 2, icon: UserCheck },
+      { label: 'Assets Available', value: 12, icon: Package },
+      { label: 'Assets Allocated', value: 1, icon: UserCheck },
       { label: 'Maintenance Today', value: 0, icon: Wrench },
       { label: 'Active Bookings', value: 1, icon: Calendar },
       { label: 'Pending Transfers', value: 0, icon: ArrowLeftRight },
-      { label: 'Upcoming Returns', value: 1, icon: Clock },
+      { label: 'Upcoming Returns', value: 0, icon: Clock },
     ],
     overdue: [],
     activity: [
-      { tag: 'Room B2', status: 'info', text: 'booking confirmed, 2:00–3:00 PM', time: '09:15 AM' },
+      { tag: 'Booking', status: 'info', text: 'confirmed Room B2, 10:00 AM', time: '09:15 AM' },
     ]
   }
 };
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [currentRole, setCurrentRole] = useState(user?.role || 'Admin');
-  const [loading, setLoading] = useState(false);
-  const [simulatedData, setSimulatedData] = useState(DATA_BY_ROLE[currentRole] || DATA_BY_ROLE.Admin);
+  const [loading, setLoading] = useState(true);
 
-  // Sync role selector when context updates
+  const [kpis, setKpis] = useState([]);
+  const [overdue, setOverdue] = useState([]);
+  const [activity, setActivity] = useState([]);
+
+  // Sync role switcher when auth context updates
   useEffect(() => {
     if (user?.role) {
       setCurrentRole(user.role);
     }
   }, [user]);
 
-  // Handle role change with a simulated skeleton loading experience
+  const fetchDashboardData = async () => {
+    setLoading(true);
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+    if (isMockMode) {
+      const mockData = DATA_BY_ROLE[currentRole] || DATA_BY_ROLE.Admin;
+      setKpis(mockData.kpis);
+      setOverdue(mockData.overdue);
+      setActivity(mockData.activity);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const [kpisRes, overdueRes, activityRes] = await Promise.all([
+        api.get('/dashboard/kpis'),
+        api.get('/dashboard/overdue-returns'),
+        api.get('/activity-logs')
+      ]);
+
+      // Map KPIs
+      const rawKpis = kpisRes.data;
+      const mappedKpis = [
+        { label: 'Assets Available', value: rawKpis.available, icon: Package },
+        { label: 'Assets Allocated', value: rawKpis.allocated, icon: UserCheck },
+        { label: 'Maintenance Today', value: rawKpis.maintenanceToday, icon: Wrench },
+        { label: 'Active Bookings', value: rawKpis.activeBookings, icon: Calendar },
+        { label: 'Pending Transfers', value: rawKpis.pendingTransfers, icon: ArrowLeftRight },
+        { label: 'Upcoming Returns', value: rawKpis.upcomingReturns, icon: Clock },
+      ];
+      setKpis(mappedKpis);
+
+      // Map Overdue
+      const mappedOverdue = overdueRes.data.map(item => {
+        const daysOverdue = Math.max(1, Math.round((new Date() - new Date(item.expectedReturnDate)) / (1000 * 60 * 60 * 24)));
+        return {
+          tag: item.assetTag,
+          name: item.holderName,
+          days: daysOverdue
+        };
+      });
+      setOverdue(mappedOverdue);
+
+      // Map Activity Logs
+      const mappedActivity = activityRes.data.slice(0, 5).map(item => {
+        const date = new Date(item.createdAt);
+        const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        return {
+          tag: item.entityType === 'Asset' ? 'Asset' : item.entityType,
+          status: item.action.includes('Approved') || item.action.includes('resolved') ? 'success' : 'info',
+          text: `${item.action} (${item.user?.name || 'Unknown'})`,
+          time: timeStr
+        };
+      });
+      setActivity(mappedActivity);
+
+    } catch (err) {
+      console.error('Failed to fetch dashboard data:', err);
+      // Fallback
+      const mockData = DATA_BY_ROLE[currentRole] || DATA_BY_ROLE.Admin;
+      setKpis(mockData.kpis);
+      setOverdue(mockData.overdue);
+      setActivity(mockData.activity);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [currentRole, user]);
+
   const handleRoleChange = (role) => {
     setLoading(true);
     setCurrentRole(role);
-    setTimeout(() => {
-      setSimulatedData(DATA_BY_ROLE[role]);
-      setLoading(false);
-    }, 600); // 600ms linear ease pulse feel
-  };
-
-  const triggerReload = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
   };
 
   return (
@@ -131,7 +189,7 @@ export default function Dashboard() {
         
         {/* Interactive role simulator - very premium for client-side review */}
         <div className="flex items-center gap-2 self-start sm:self-auto bg-card border border-border p-1 rounded-lg">
-          <span className="text-[10px] uppercase font-mono text-muted-foreground-2 px-2">Role SIM:</span>
+          <span className="text-[10px] uppercase font-mono text-muted-foreground px-2">Mode:</span>
           {Object.keys(DATA_BY_ROLE).map((role) => (
             <button
               key={role}
@@ -146,7 +204,7 @@ export default function Dashboard() {
             </button>
           ))}
           <button 
-            onClick={triggerReload}
+            onClick={fetchDashboardData}
             className="p-1 hover:text-foreground hover:bg-white/5 rounded text-muted-foreground transition-colors"
             title="Reload State"
           >
@@ -177,7 +235,7 @@ export default function Dashboard() {
                   </div>
                 ))
               ) : (
-                simulatedData.kpis.map((kpi, idx) => {
+                kpis.map((kpi, idx) => {
                   const Icon = kpi.icon;
                   return (
                     <div key={idx} className="py-3 flex justify-between items-center text-sm">
@@ -217,15 +275,14 @@ export default function Dashboard() {
                   </div>
                 ))}
               </div>
-            ) : simulatedData.overdue.length === 0 ? (
-              /* Empty state (e.g. employee role has 0 overdue returns) */
+            ) : overdue.length === 0 ? (
               <div className="py-12 flex flex-col items-center justify-center text-center">
-                <Inbox size={32} className="text-muted-foreground-2 mb-2 stroke-[1.5px]" />
+                <Inbox size={32} className="text-muted-foreground mb-2 stroke-[1.5px]" />
                 <p className="text-sm text-muted-foreground">No overdue returns.</p>
               </div>
             ) : (
               <div className="divide-y divide-border">
-                {simulatedData.overdue.map((item, idx) => (
+                {overdue.map((item, idx) => (
                   <div key={idx} className="py-3 flex items-center justify-between text-sm">
                     <div className="flex items-center gap-3">
                       <StatusDot status="overdue" label="" className="shrink-0" />
@@ -248,6 +305,7 @@ export default function Dashboard() {
           <h3 className="text-sm font-medium text-muted-foreground px-0.5">Quick Actions</h3>
           <Button 
             variant="outline" 
+            onClick={() => navigate('/assets')}
             className="w-full justify-start gap-2 hover:bg-white/5 active:bg-white/10"
           >
             <Plus size={16} />
@@ -255,6 +313,7 @@ export default function Dashboard() {
           </Button>
           <Button 
             variant="outline" 
+            onClick={() => navigate('/bookings')}
             className="w-full justify-start gap-2 hover:bg-white/5 active:bg-white/10"
           >
             <Calendar size={16} />
@@ -262,6 +321,7 @@ export default function Dashboard() {
           </Button>
           <Button 
             variant="outline" 
+            onClick={() => navigate('/maintenance')}
             className="w-full justify-start gap-2 hover:bg-white/5 active:bg-white/10"
           >
             <Wrench size={16} />
@@ -284,8 +344,12 @@ export default function Dashboard() {
                     <Skeleton className="h-4 w-12" />
                   </div>
                 ))
+              ) : activity.length === 0 ? (
+                <div className="p-8 text-center text-sm text-muted-foreground">
+                  No recent activity logged.
+                </div>
               ) : (
-                simulatedData.activity.map((act, idx) => (
+                activity.map((act, idx) => (
                   <div key={idx} className="p-4 flex items-center justify-between text-sm hover:bg-card-hover transition-colors">
                     <div className="flex items-center gap-3 min-w-0">
                       <StatusDot status={act.status} label="" className="shrink-0" />
@@ -294,7 +358,7 @@ export default function Dashboard() {
                         <span className="text-muted-foreground">{act.text}</span>
                       </div>
                     </div>
-                    <span className="font-mono text-xs text-muted-foreground-2 shrink-0 ml-2">{act.time}</span>
+                    <span className="font-mono text-xs text-muted-foreground shrink-0 ml-2">{act.time}</span>
                   </div>
                 ))
               )}

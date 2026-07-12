@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import AppLayout from './layouts/AppLayout';
 import Dashboard from './pages/Dashboard';
 import OrganizationSetup from './pages/OrganizationSetup';
@@ -30,6 +31,9 @@ export default function App() {
 
         {/* Login page */}
         <Route path="/login" element={<Login />} />
+
+        {/* Signup page */}
+        <Route path="/signup" element={<Signup />} />
 
         {/* Protected Dashboard & Operations */}
         <Route element={<ProtectedRoute />}>

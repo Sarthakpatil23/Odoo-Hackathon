@@ -238,4 +238,91 @@ router.patch('/:id/cancel', authenticate, async (req, res) => {
   }
 });
 
+// PATCH /api/bookings/:id
+// Update booking start and end time
+router.patch('/:id', authenticate, async (req, res) => {
+  const { id } = req.params;
+  const { startTime, endTime } = req.body;
+  const userId = req.user.id;
+  const role = req.user.role;
+
+  if (!startTime || !endTime) {
+    return res.status(400).json({ error: 'startTime and endTime are required.' });
+  }
+
+  const start = new Date(startTime);
+  const end = new Date(endTime);
+
+  if (end <= start) {
+    return res.status(400).json({ error: 'endTime must be strictly after startTime.' });
+  }
+
+  try {
+    const booking = await prisma.booking.findUnique({
+      where: { id }
+    });
+
+    if (!booking) {
+      return res.status(404).json({ error: 'Booking not found.' });
+    }
+
+    const isCreator = booking.employeeId === userId;
+    const isAuthorized = isCreator || role === 'Admin' || role === 'AssetManager';
+
+    if (!isAuthorized) {
+      return res.status(403).json({ error: 'You are not authorized to update this booking.' });
+    }
+
+    // Overlap check
+    const conflict = await prisma.booking.findFirst({
+      where: {
+        id: { not: id },
+        assetId: booking.assetId,
+        status: { in: ['Upcoming', 'Ongoing'] },
+        startTime: { lt: end },
+        endTime: { gt: start }
+      },
+      include: {
+        employee: { select: { name: true } }
+      }
+    });
+
+    if (conflict) {
+      return res.status(409).json({
+        error: 'Time slot overlaps with an existing booking',
+        conflictingBooking: {
+          startTime: conflict.startTime,
+          endTime: conflict.endTime,
+          bookerName: conflict.employee ? conflict.employee.name : 'Another user'
+        }
+      });
+    }
+
+    const updated = await prisma.booking.update({
+      where: { id },
+      data: {
+        startTime: start,
+        endTime: end,
+      },
+      include: {
+        asset: { select: { tag: true } }
+      }
+    });
+
+    await prisma.activityLog.create({
+      data: {
+        userId,
+        action: `Rescheduled booking for resource ${updated.asset.tag}`,
+        entityType: 'Booking',
+        entityId: id
+      }
+    });
+
+    res.json(updated);
+  } catch (error) {
+    console.error('[PATCH /api/bookings/:id error]', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;
