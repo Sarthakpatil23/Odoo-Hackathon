@@ -1112,8 +1112,7 @@ export default function Maintenance() {
             onDragOver={handleDragOver}
             onDragEnd={handleDragEnd}
           >
-            {/* Horizontally scrollable lane container for tablet/desktop */}
-            <div className="flex overflow-x-auto border border-border rounded-lg bg-transparent">
+            <div className="flex overflow-x-auto premium-scrollbar border border-border rounded-lg bg-transparent">
               {COLUMNS.map((col) => (
                 <KanbanColumn
                   key={col.id}
