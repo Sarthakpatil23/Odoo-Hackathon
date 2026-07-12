@@ -11,6 +11,7 @@ import { ProtectedRoute, RoleProtectedRoute } from './components/ProtectedRoute'
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Unauthorized from './pages/Unauthorized';
+import Landing from './pages/Landing';
 
 // Protected placeholder pages
 import Dashboard from './pages/Dashboard';
@@ -46,8 +47,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Root redirect */}
-        <Route path="/" element={<RootRedirect />} />
+        {/* Public landing page */}
+        <Route path="/" element={<Landing />} />
 
         {/* Public routes */}
         <Route path="/login" element={<Login />} />
