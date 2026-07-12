@@ -296,4 +296,28 @@ router.get('/reports/maintenance-by-category', authenticate, async (req, res) =>
   }
 });
 
+// GET /api/activity-logs
+router.get('/activity-logs', authenticate, async (req, res) => {
+  try {
+    const logs = await prisma.activityLog.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+            role: true,
+            email: true
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+    res.json(logs);
+  } catch (error) {
+    console.error('[GET /api/activity-logs error]', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;

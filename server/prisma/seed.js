@@ -302,6 +302,108 @@ async function main() {
 
   console.log('Maintenance Requests seeded.');
 
+  // 9. Seed notifications and activity logs
+  const users = [admin, manager, deptHead, emp1, emp2];
+  const now = new Date();
+  
+  console.log('Seeding notifications and activity logs...');
+  for (const u of users) {
+    await prisma.notification.createMany({
+      data: [
+        {
+          userId: u.id,
+          type: 'info',
+          message: 'Laptop AF-0014 assigned to Priya Shah.',
+          isRead: false,
+          createdAt: new Date(now.getTime() - 2 * 60 * 1000), // 2m ago
+        },
+        {
+          userId: u.id,
+          type: 'success',
+          message: 'Maintenance request AF-0055 approved.',
+          isRead: false,
+          createdAt: new Date(now.getTime() - 18 * 60 * 1000), // 18m ago
+        },
+        {
+          userId: u.id,
+          type: 'info',
+          message: 'Booking confirmed: Room B2, 2:00–3:00 PM.',
+          isRead: false,
+          createdAt: new Date(now.getTime() - 60 * 60 * 1000), // 1h ago
+        },
+        {
+          userId: u.id,
+          type: 'success',
+          message: 'Transfer approved: AF-0033 to Facilities dept.',
+          isRead: false,
+          createdAt: new Date(now.getTime() - 3 * 60 * 60 * 1000), // 3h ago
+        },
+        {
+          userId: u.id,
+          type: 'danger',
+          message: 'Overdue return: AF-0021 was due 3 days ago.',
+          isRead: false,
+          createdAt: new Date(now.getTime() - 24 * 60 * 60 * 1000), // 1d ago
+        },
+        {
+          userId: u.id,
+          type: 'damaged',
+          message: 'Audit discrepancy flagged: AF-0088 damaged.',
+          isRead: false,
+          createdAt: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000), // 2d ago
+        },
+      ]
+    });
+
+    await prisma.activityLog.createMany({
+      data: [
+        {
+          userId: u.id,
+          action: 'Assigned laptop AF-0014 to Priya Shah.',
+          entityType: 'Asset',
+          entityId: asset1.id,
+          createdAt: new Date(now.getTime() - 2 * 60 * 1000), // 2m ago
+        },
+        {
+          userId: u.id,
+          action: 'Approved maintenance request AF-0055.',
+          entityType: 'MaintenanceRequest',
+          entityId: asset2.id,
+          createdAt: new Date(now.getTime() - 18 * 60 * 1000), // 18m ago
+        },
+        {
+          userId: u.id,
+          action: 'Confirmed booking for Room B2, 2:00–3:00 PM.',
+          entityType: 'Booking',
+          entityId: asset4.id,
+          createdAt: new Date(now.getTime() - 60 * 60 * 1000), // 1h ago
+        },
+        {
+          userId: u.id,
+          action: 'Approved transfer of asset AF-0033 to Facilities dept.',
+          entityType: 'Transfer',
+          entityId: asset3.id,
+          createdAt: new Date(now.getTime() - 3 * 60 * 60 * 1000), // 3h ago
+        },
+        {
+          userId: u.id,
+          action: 'Flagged return as overdue: AF-0021 was due 3 days ago.',
+          entityType: 'Asset',
+          entityId: asset2.id,
+          createdAt: new Date(now.getTime() - 24 * 60 * 60 * 1000), // 1d ago
+        },
+        {
+          userId: u.id,
+          action: 'Flagged audit discrepancy: AF-0088 marked as damaged.',
+          entityType: 'AuditItem',
+          entityId: asset5.id,
+          createdAt: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000), // 2d ago
+        },
+      ]
+    });
+  }
+  console.log('Notifications and activity logs seeded.');
+
   console.log('===================================================');
   console.log('DATABASE SEED COMPLETE. Use these demo credentials:');
   console.log('---------------------------------------------------');
