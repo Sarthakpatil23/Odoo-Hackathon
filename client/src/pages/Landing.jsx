@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { Card } from '../components/shared/Card';
 import { StatusDot } from '../components/shared/StatusDot';
 import { Button } from '../components/ui/button';
+import ShapeGrid from '../components/ui/ShapeGrid';
 import {
   LayoutDashboard,
   Building,
@@ -23,12 +25,15 @@ import {
   Globe,
   Lock,
   ShieldCheck,
-  CheckCircle2
+  CheckCircle2,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 export default function Landing() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState('dashboard');
 
   const handleCtaClick = () => {
@@ -36,12 +41,26 @@ export default function Landing() {
   };
 
   return (
-    <div className="dark min-h-screen bg-background text-foreground selection:bg-white/10 relative overflow-hidden font-sans antialiased">
+    <div className={`${theme} min-h-screen bg-background text-foreground selection:bg-white/10 relative overflow-hidden font-sans antialiased`}>
+      
+      {/* ShapeGrid Animated Canvas Background */}
+      <div className="absolute inset-0 z-0 pointer-events-auto">
+        <ShapeGrid 
+          speed={0.5} 
+          squareSize={40}
+          direction="diagonal"
+          borderColor={theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.04)'}
+          hoverFillColor={theme === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)'}
+          shape="square"
+          hoverTrailAmount={5}
+        />
+      </div>
+
       {/* Subtle radial white glow behind the hero canvas */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-white/[0.015] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-white/[0.015] dark:bg-white/[0.01] rounded-full blur-[120px] pointer-events-none z-0" />
 
       {/* Navigation Header */}
-      <header className="px-6 md:px-10 py-4 flex items-center justify-between border-b border-border bg-background/50 backdrop-blur-md sticky top-0 z-50 select-none">
+      <header className="px-6 md:px-10 py-4 flex items-center justify-between border-b border-border bg-background/50 backdrop-blur-md sticky top-0 z-50 select-none relative">
         <div className="flex items-center gap-2">
           <div className="h-5 w-5 bg-foreground text-background flex items-center justify-center font-bold text-[10px] rounded-[3px] select-none">
             AF
@@ -56,6 +75,15 @@ export default function Landing() {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Theme Switcher Button */}
+          <button 
+            onClick={toggleTheme}
+            className="p-2 text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-md transition-colors mr-1"
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+          </button>
+
           <Button variant="outline" size="sm" onClick={() => navigate('/login')}>
             Log In
           </Button>
@@ -94,7 +122,7 @@ export default function Landing() {
       </section>
 
       {/* Platform Mockup Preview Section */}
-      <section id="preview" className="px-6 md:px-10 py-12 max-w-[1200px] mx-auto border-t border-border/60">
+      <section id="preview" className="px-6 md:px-10 py-12 max-w-[1200px] mx-auto border-t border-border/60 z-10 relative">
         <div className="text-center mb-10 space-y-2">
           <span className="text-[10px] font-mono tracking-[0.2em] text-muted-foreground-2 uppercase">PLATFORM PREVIEW</span>
           <h2 className="text-2xl font-medium tracking-tight text-foreground">Interactive Interface Sandbox</h2>
@@ -415,7 +443,7 @@ export default function Landing() {
       </section>
 
       {/* Metrics strip band */}
-      <section className="px-6 md:px-10 py-10 max-w-[1200px] mx-auto">
+      <section className="px-6 md:px-10 py-10 max-w-[1200px] mx-auto z-10 relative">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 border border-border rounded-lg bg-card/30 p-6 text-left">
           <div className="space-y-1">
             <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">LIFECYCLE SCALE</div>
@@ -441,7 +469,7 @@ export default function Landing() {
       </section>
 
       {/* Features Grid Section */}
-      <section id="features" className="px-6 md:px-10 py-20 max-w-[1200px] mx-auto border-t border-border/60">
+      <section id="features" className="px-6 md:px-10 py-20 max-w-[1200px] mx-auto border-t border-border/60 z-10 relative">
         <div className="text-center mb-16 space-y-2">
           <span className="text-[10px] font-mono tracking-[0.2em] text-muted-foreground-2 uppercase">FEATURES</span>
           <h2 className="text-3xl font-medium tracking-tight text-foreground">Structured workflows for physical operations</h2>
@@ -511,7 +539,7 @@ export default function Landing() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="px-6 md:px-10 py-20 max-w-[1200px] mx-auto border-t border-border/60">
+      <section id="testimonials" className="px-6 md:px-10 py-20 max-w-[1200px] mx-auto border-t border-border/60 z-10 relative">
         <div className="text-center mb-16 space-y-2">
           <span className="text-[10px] font-mono tracking-[0.2em] text-muted-foreground-2 uppercase">TRUSTED BY TEAMS</span>
           <h2 className="text-3xl font-medium tracking-tight text-foreground">Built for operational excellence</h2>
@@ -551,7 +579,7 @@ export default function Landing() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="px-6 md:px-10 py-24 max-w-[800px] mx-auto text-center space-y-6 border-t border-border/60">
+      <section className="px-6 md:px-10 py-24 max-w-[800px] mx-auto text-center space-y-6 border-t border-border/60 z-10 relative">
         <h2 className="text-3xl font-medium tracking-tight text-foreground">Deploy your asset portal today</h2>
         <p className="text-xs text-muted-foreground max-w-[500px] mx-auto leading-relaxed">
           Create a free workspace for your organization. Start tracking resources, booking spaces, and streamlining equipment allocations in minutes.
@@ -565,7 +593,7 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="px-6 md:px-10 py-10 border-t border-border bg-black/40 text-[11px] text-muted-foreground-2 flex flex-col md:flex-row items-center justify-between gap-4 select-none shrink-0">
+      <footer className="px-6 md:px-10 py-10 border-t border-border bg-black/40 text-[11px] text-muted-foreground-2 flex flex-col md:flex-row items-center justify-between gap-4 select-none shrink-0 z-10 relative">
         <div className="flex items-center gap-2">
           <div className="h-4 w-4 bg-foreground text-background flex items-center justify-center font-bold text-[8px] rounded-[2px]">
             AF
