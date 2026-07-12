@@ -120,6 +120,43 @@ html {
     --pop: 56 189 248;
   }
 
+<<<<<<< HEAD
+  /*
+   * Dark mode — design.md v2 (Vercel-reference)
+   * Pure black canvas, grayscale surfaces, hairline borders.
+   * Status dots are the ONLY color — see lib/tokens.js
+   */
+  .dark {
+    /* §2.1 Base palette */
+    --background:        0.04 0 0;   /* #000000 — pure black canvas */
+    --surface:           0.07 0 0;   /* #0A0A0A — sidebar / topbar */
+    --card:              0.10 0 0;   /* #111111 — card / panel fill */
+    --card-hover:        0.12 0 0;   /* #161616 — card interactive hover */
+    --card-foreground:   0.93 0 0;   /* #EDEDED */
+    --popover:           0.12 0 0;   /* #171717 — dropdowns, dialogs */
+    --border:            0.17 0 0;   /* #232323 — hairline border */
+    --border-strong:     0.22 0 0;   /* #2E2E2E — active item outline */
+    --foreground:        0.93 0 0;   /* #EDEDED — primary text */
+    --muted-foreground:  0.55 0 0;   /* #888888 — secondary text */
+    --muted-foreground-2: 0.38 0 0;  /* #5C5C5C — tertiary / disabled */
+    --input:             0.17 0 0;
+    --muted:             0.17 0 0;
+
+    /* §2.2 Primary = contrast (off-white fill, near-black text) */
+    --primary:           0.93 0 0;   /* #EDEDED — off-white button fill */
+    --primary-foreground: 0.07 0 0;  /* #0A0A0A — near-black text on it */
+    --ring:              0.93 0 0;   /* white focus ring at low opacity */
+
+    /* §2.3 Status colors — the ONLY hue allowed */
+    --success:      0.72 0.19 155;   /* #3FBA6D */
+    --info:         0.60 0.16 240;   /* #4B8FE0 */
+    --warning:      0.74 0.15 75;    /* #D9A441 */
+    --attention:    0.68 0.16 45;    /* #D97B3F */
+    --danger:       0.60 0.17 15;    /* #DB5A5A */
+    --damaged:      0.52 0.19 305;   /* #A25AC7 */
+    --neutral-state: 0.48 0 0;       /* #6E6E6E */
+    --pop: 0.78 0.14 200;
+=======
   /* Dark mode — used by the app shell (design.md v2 §2.1) */
   .dark {
     --background: 0 0 0;          /* #000000 — pure black canvas */
@@ -150,6 +187,7 @@ html {
     --damaged: 162 90 199;        /* #A25AC7 */
     --neutral-state: 110 110 110; /* #6E6E6E */
     --pop: 75 143 224;
+>>>>>>> df78c75a55f9b963f0b8815f7f473203cb774c04
   }
 }
 
