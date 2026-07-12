@@ -7,6 +7,7 @@ import OrganizationSetup from './pages/OrganizationSetup';
 import Allocations from './pages/Allocations';
 import Assets from './pages/Assets';
 import Maintenance from './pages/Maintenance';
+import Bookings from './pages/Bookings';
 import Reports from './pages/Reports';
 import Audits from './pages/Audits';
 import Notifications from './pages/Notifications';
@@ -42,7 +43,7 @@ export default function App() {
 
             <Route path="/assets" element={<Assets />} />
             <Route path="/allocations" element={<Allocations />} />
-            <Route path="/bookings" element={<Placeholder name="Resource Booking" />} />
+            <Route path="/bookings" element={<Bookings />} />
             <Route path="/maintenance" element={<Maintenance />} />
             <Route path="/audits" element={<Audits />} />
             <Route path="/reports" element={<Reports />} />
