@@ -26,6 +26,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/departments', require('./src/routes/departments'));
 app.use('/api/asset-categories', require('./src/routes/asset-categories'));
 app.use('/api/employees', require('./src/routes/employees'));
+app.use('/api/assets', require('./src/routes/assets'));
 
 // Protected test route — returns decoded token payload from req.user
 // Usage: GET /api/me with Authorization: Bearer <token>

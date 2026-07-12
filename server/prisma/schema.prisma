@@ -159,6 +159,7 @@ model Asset {
   location        String
   status          AssetStatus @default(Available)
   isBookable      Boolean     @default(false)
+  photoUrl        String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 
