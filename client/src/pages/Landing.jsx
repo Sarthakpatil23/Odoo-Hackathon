@@ -6,6 +6,10 @@ import { Card } from '../components/shared/Card';
 import { StatusDot } from '../components/shared/StatusDot';
 import { Button } from '../components/ui/button';
 import ShapeGrid from '../components/ui/ShapeGrid';
+import CardSwap, { Card } from '../components/ui/CardSwap';
+import img1 from '../assets/image 1.png';
+import img2 from '../assets/image 2.png';
+import img3 from '../assets/image 3.png';
 import {
   LayoutDashboard,
   Building,
@@ -93,31 +97,78 @@ export default function Landing() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="px-6 md:px-10 pt-24 pb-16 max-w-[1200px] mx-auto text-center space-y-8 z-10 relative">
-        <div className="space-y-6 max-w-[850px] mx-auto flex flex-col items-center">
-          <div className="inline-flex items-center gap-1.5 border border-border rounded-full px-3 py-1 text-xs text-muted-foreground bg-card/30">
-            <span className="h-1.5 w-1.5 rounded-full bg-success"></span>
-            <span>AssetFlow v2.0 Platform is Live</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl font-medium tracking-tight text-foreground leading-[1.05] font-sans">
-            Track every asset.<br />Manage every space.
-          </h1>
-          
-          <p className="text-base md:text-lg text-muted-foreground max-w-[620px] mx-auto font-sans leading-relaxed pt-2">
-            Digitize and streamline how your organization tracks, allocates, and maintains physical equipment, shared spaces, and team resources in a single unified system.
-          </p>
-        </div>
+      {/* Hero Section — two column: text left, CardSwap right */}
+      <section className="px-6 md:px-10 pt-20 pb-10 max-w-[1200px] mx-auto z-10 relative">
+        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-0">
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-          <Button size="lg" onClick={handleCtaClick} className="w-full sm:w-auto flex items-center gap-2">
-            <span>{user ? 'Go to Dashboard' : 'Get Started Now'}</span>
-            <ArrowRight size={14} />
-          </Button>
-          <Button size="lg" variant="outline" onClick={() => navigate('/login')} className="w-full sm:w-auto">
-            Log In as Guest
-          </Button>
+          {/* Left — headline + CTA */}
+          <div className="flex-1 min-w-0 space-y-7 text-left max-w-[580px]">
+            <div className="inline-flex items-center gap-1.5 border border-border rounded-full px-3 py-1 text-xs text-muted-foreground bg-card/30">
+              <span className="h-1.5 w-1.5 rounded-full bg-success" />
+              <span>AssetFlow v2.0 Platform is Live</span>
+            </div>
+
+            <h1 className="text-5xl md:text-6xl font-medium tracking-tight text-foreground leading-[1.05] font-sans">
+              Track every asset.<br />Manage every space.
+            </h1>
+
+            <p className="text-base md:text-lg text-muted-foreground max-w-[520px] font-sans leading-relaxed">
+              Digitize and streamline how your organization tracks, allocates, and maintains physical equipment, shared spaces, and team resources in a single unified system.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-start gap-3 pt-2">
+              <Button size="lg" onClick={handleCtaClick} className="w-full sm:w-auto flex items-center gap-2">
+                <span>{user ? 'Go to Dashboard' : 'Get Started Now'}</span>
+                <ArrowRight size={14} />
+              </Button>
+              <Button size="lg" variant="outline" onClick={() => navigate('/login')} className="w-full sm:w-auto">
+                Log In as Guest
+              </Button>
+            </div>
+          </div>
+
+          {/* Right — CardSwap stack with the 3 product screenshots */}
+          <div
+            className="relative flex-shrink-0 w-full lg:w-[540px] h-[420px] lg:h-[480px] pointer-events-none select-none"
+            aria-hidden="true"
+          >
+            <CardSwap
+              width={340}
+              height={240}
+              cardDistance={55}
+              verticalDistance={60}
+              delay={3500}
+              pauseOnHover={false}
+              skewAmount={5}
+              easing="elastic"
+            >
+              <Card>
+                <img
+                  src={img1}
+                  alt="AssetFlow dashboard screenshot"
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+              </Card>
+              <Card>
+                <img
+                  src={img2}
+                  alt="AssetFlow asset registry screenshot"
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+              </Card>
+              <Card>
+                <img
+                  src={img3}
+                  alt="AssetFlow maintenance board screenshot"
+                  className="w-full h-full object-cover"
+                  draggable={false}
+                />
+              </Card>
+            </CardSwap>
+          </div>
+
         </div>
       </section>
 
