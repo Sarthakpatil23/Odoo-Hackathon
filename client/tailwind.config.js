@@ -39,12 +39,15 @@ export default {
         card: {
           DEFAULT: "oklch(var(--card) / <alpha-value>)",
           foreground: "oklch(var(--card-foreground) / <alpha-value>)",
+          hover: "oklch(var(--card-hover) / <alpha-value>)",
         },
+        surface: "oklch(var(--surface) / <alpha-value>)",
         popover: {
           DEFAULT: "oklch(var(--popover) / <alpha-value>)",
           foreground: "oklch(var(--foreground) / <alpha-value>)",
         },
         border: "oklch(var(--border) / <alpha-value>)",
+        "border-strong": "oklch(var(--border-strong) / <alpha-value>)",
         input: "oklch(var(--input) / <alpha-value>)",
         muted: {
           DEFAULT: "oklch(var(--muted) / <alpha-value>)",

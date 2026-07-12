@@ -13,6 +13,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Toast fade-in ── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 160ms ease forwards;
+}
+
 /* ── Scribble SVG animation used in Hero headline ── */
 @layer utilities {
   @keyframes draw-scribble {
@@ -93,16 +102,19 @@ html {
     --foreground: 0.145 0 0;
     --card: 1 0 0;
     --card-foreground: 0.145 0 0;
+    --card-hover: 0.97 0 0;
+    --surface: 0.97 0 0;
     --popover: 1 0 0;
     --border: 0.90 0 0;
+    --border-strong: 0.82 0 0;
     --input: 0.90 0 0;
     --muted: 0.96 0 0;
     --muted-foreground: 0.46 0 0;
 
-    /* Primary Indigo: #4F46E5 */
+    /* Primary: off-white fill, near-black text (design.md v2 §2.2) */
     --ring: 0.54 0.22 284;
-    --primary: 0.54 0.22 284;
-    --primary-foreground: 0.99 0 0;
+    --primary: 0.93 0 0;
+    --primary-foreground: 0.10 0 0;
 
     /* Status colors */
     --success: 0.72 0.19 155;
@@ -118,23 +130,26 @@ html {
 
   /* Dark mode — used by the app shell (dashboard, auth etc) */
   .dark {
-    /* Deep Navy: #020617 */
-    --background: 0.145 0 0;
-    --foreground: 0.96 0 0;
-    --card: 0.19 0 0;
+    /* Pure black canvas, design.md v2 §2.1 */
+    --background: 0.07 0 0;     /* ~#000 */
+    --surface: 0.09 0 0;         /* sidebar/topbar, ~#0A0A0A */
+    --card: 0.12 0 0;            /* card fill, ~#111111 */
+    --card-hover: 0.14 0 0;     /* hover, ~#161616 */
     --card-foreground: 0.96 0 0;
-    --popover: 0.21 0 0;
-    --border: 0.28 0 0;
-    --input: 0.28 0 0;
-    --muted: 0.23 0 0;
-    --muted-foreground: 0.64 0 0;
+    --popover: 0.15 0 0;         /* dialogs/dropdowns, ~#171717 */
+    --foreground: 0.93 0 0;     /* primary text, ~#EDEDED */
+    --border: 0.22 0 0;         /* hairline, ~#232323 */
+    --border-strong: 0.26 0 0;  /* active outline, ~#2E2E2E */
+    --input: 0.22 0 0;
+    --muted: 0.20 0 0;
+    --muted-foreground: 0.58 0 0; /* ~#888888 */
 
-    /* Primary Indigo (same across modes) */
-    --ring: 0.54 0.22 284;
-    --primary: 0.54 0.22 284;
-    --primary-foreground: 0.99 0 0;
+    /* Primary: off-white fill, near-black text (design.md v2 §2.2) */
+    --ring: 0.80 0 0;
+    --primary: 0.93 0 0;         /* ~#EDEDED off-white fill */
+    --primary-foreground: 0.09 0 0; /* ~#0A0A0A near-black text */
 
-    /* Status colors */
+    /* Status colors — the ONLY color (design.md §2.3) */
     --success: 0.72 0.19 155;
     --info: 0.62 0.19 255;
     --warning: 0.78 0.16 75;
