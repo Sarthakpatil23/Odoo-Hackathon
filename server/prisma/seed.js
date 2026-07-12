@@ -226,6 +226,21 @@ async function main() {
     }
   });
 
+  // AF-0007
+  const asset7 = await prisma.asset.create({
+    data: {
+      tag: 'AF-0007',
+      name: 'Conference Room B2',
+      categoryId: furnitureCat.id,
+      acquisitionDate: new Date('2025-08-10'),
+      acquisitionCost: 1500.00,
+      condition: 'Good',
+      location: 'Main HQ Floor 2',
+      isBookable: true,
+      status: 'Available',
+    }
+  });
+
   console.log('Assets seeded.');
 
   // 5. Create Allocation with expectedReturnDate in the past and still Active (Overdue)
@@ -269,20 +284,71 @@ async function main() {
 
   console.log('Transfer requests seeded.');
 
-  // 7. Create Existing Booking for tomorrow 9:00 - 10:00
+  // 7. Create Dynamic Bookings
+  const today = new Date();
+  
+  const today10 = new Date(today);
+  today10.setHours(10, 0, 0, 0);
+  const today12 = new Date(today);
+  today12.setHours(12, 0, 0, 0);
+
+  const today14 = new Date(today);
+  today14.setHours(14, 0, 0, 0);
+  const today15 = new Date(today);
+  today15.setHours(15, 0, 0, 0);
+
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setHours(9, 0, 0, 0);
+  const tomorrow9 = new Date(tomorrow);
+  tomorrow9.setHours(9, 0, 0, 0);
+  const tomorrow10 = new Date(tomorrow);
+  tomorrow10.setHours(10, 0, 0, 0);
 
-  const tomorrowEnd = new Date(tomorrow);
-  tomorrowEnd.setHours(10, 0, 0, 0);
+  const tomorrow13 = new Date(tomorrow);
+  tomorrow13.setHours(13, 0, 0, 0);
+  const tomorrow16 = new Date(tomorrow);
+  tomorrow16.setHours(16, 0, 0, 0);
 
+  // Today booking 1 (Room B2)
   await prisma.booking.create({
     data: {
-      assetId: asset4.id, // iPhone 15 Pro Testbed (bookable)
+      assetId: asset7.id,
+      employeeId: emp1.id,
+      startTime: today10,
+      endTime: today12,
+      status: 'Upcoming',
+    }
+  });
+
+  // Today booking 2 (iPhone)
+  await prisma.booking.create({
+    data: {
+      assetId: asset4.id,
       employeeId: emp2.id,
-      startTime: tomorrow,
-      endTime: tomorrowEnd,
+      startTime: today14,
+      endTime: today15,
+      status: 'Upcoming',
+    }
+  });
+
+  // Tomorrow booking 1 (iPhone)
+  await prisma.booking.create({
+    data: {
+      assetId: asset4.id,
+      employeeId: emp1.id,
+      startTime: tomorrow9,
+      endTime: tomorrow10,
+      status: 'Upcoming',
+    }
+  });
+
+  // Tomorrow booking 2 (Boardroom Table)
+  await prisma.booking.create({
+    data: {
+      assetId: asset3.id,
+      employeeId: emp2.id,
+      startTime: tomorrow13,
+      endTime: tomorrow16,
       status: 'Upcoming',
     }
   });

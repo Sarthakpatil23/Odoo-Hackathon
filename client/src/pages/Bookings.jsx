@@ -208,12 +208,65 @@ function ConflictAlert({ message, onDismiss }) {
 
 // ─── MAIN PAGE ───────────────────────────────────────────────────────────────
 
+const MOCK_RESOURCES = [
+  { id: 'ph-1', tag: 'AF-0007', name: 'Conference Room B2', isBookable: true },
+  { id: 'ph-2', tag: 'AF-0004', name: 'iPhone 15 Pro Testbed', isBookable: true },
+  { id: 'ph-3', tag: 'AF-0003', name: 'Conference Boardroom Table', isBookable: true }
+];
+
+const relativeISO = (daysOffset, hour) => {
+  const d = new Date();
+  d.setDate(d.getDate() + daysOffset);
+  d.setHours(hour, 0, 0, 0);
+  return d.toISOString();
+};
+
+const INITIAL_MOCK_BOOKINGS = [
+  {
+    id: 'bkg-1',
+    assetId: 'ph-1',
+    startTime: relativeISO(0, 10),
+    endTime: relativeISO(0, 12),
+    status: 'Upcoming',
+    purpose: 'Team Standup & Sync',
+    employee: { name: 'Sarah Connor', email: 'sarah@assetflow.com' }
+  },
+  {
+    id: 'bkg-2',
+    assetId: 'ph-2',
+    startTime: relativeISO(0, 14),
+    endTime: relativeISO(0, 15),
+    status: 'Upcoming',
+    purpose: 'iOS Safari Testing',
+    employee: { name: 'Priya Shah', email: 'priya@assetflow.com' }
+  },
+  {
+    id: 'bkg-3',
+    assetId: 'ph-2',
+    startTime: relativeISO(1, 9),
+    endTime: relativeISO(1, 10),
+    status: 'Upcoming',
+    purpose: 'Core Testing',
+    employee: { name: 'Sarah Connor', email: 'sarah@assetflow.com' }
+  },
+  {
+    id: 'bkg-4',
+    assetId: 'ph-3',
+    startTime: relativeISO(1, 13),
+    endTime: relativeISO(1, 16),
+    status: 'Upcoming',
+    purpose: 'Board Meeting',
+    employee: { name: 'Priya Shah', email: 'priya@assetflow.com' }
+  }
+];
+
 export default function Bookings() {
   const { user } = useAuth();
   const { toasts, push: toast } = useToast();
 
   // Resource + Date state
   const [resources, setResources] = useState([]);
+  const [localBookings, setLocalBookings] = useState([]);
   const [selectedResource, setSelectedResource] = useState(null);
   const [selectedDate, setSelectedDate] = useState(toLocalDateValue(new Date()));
 
@@ -244,6 +297,16 @@ export default function Bookings() {
   useEffect(() => {
     (async () => {
       setLoadingResources(true);
+      const tokenVal = localStorage.getItem('token');
+      const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+      if (isMockMode) {
+        setResources(MOCK_RESOURCES);
+        setSelectedResource(MOCK_RESOURCES[0]);
+        setLoadingResources(false);
+        return;
+      }
+
       try {
         const res = await api.get('/assets', { params: { isBookable: true } });
         const list = (res.data?.assets || res.data || []).filter(a => a.isBookable);
@@ -251,26 +314,48 @@ export default function Bookings() {
         if (list.length > 0 && !selectedResource) setSelectedResource(list[0]);
       } catch (err) {
         console.error('Failed to fetch bookable resources:', err);
-        // Use placeholder so UI never breaks in demo
-        setResources([
-          { id: 'ph-1', tag: 'Room-B2', name: 'Conference Room B2', isBookable: true },
-          { id: 'ph-2', tag: 'AF-0004', name: 'iPhone 15 Pro Testbed', isBookable: true },
-        ]);
-        setSelectedResource({ id: 'ph-1', tag: 'Room-B2', name: 'Conference Room B2', isBookable: true });
+        setResources(MOCK_RESOURCES);
+        setSelectedResource(MOCK_RESOURCES[0]);
       } finally {
         setLoadingResources(false);
       }
     })();
   }, []);
 
+  // Initialize local mock bookings
+  useEffect(() => {
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+    if (isMockMode && localBookings.length === 0) {
+      setLocalBookings(INITIAL_MOCK_BOOKINGS);
+    }
+  }, [localBookings]);
+
   // ── Load bookings for selected resource + date ───────────────────────────
   const fetchBookings = useCallback(async () => {
     if (!selectedResource) return;
     setLoadingBookings(true);
     setConflictMsg('');
+
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+    if (isMockMode) {
+      const dayStart = new Date(`${selectedDate}T00:00:00`);
+      const dayEnd   = new Date(`${selectedDate}T23:59:59`);
+      const filtered = localBookings.filter(b => {
+        if (b.assetId !== selectedResource.id) return false;
+        if (b.status === 'Cancelled') return false;
+        const s = new Date(b.startTime);
+        return s >= dayStart && s <= dayEnd;
+      });
+      setBookings(filtered);
+      setLoadingBookings(false);
+      return;
+    }
+
     try {
       const res = await api.get('/bookings', { params: { assetId: selectedResource.id } });
-      // Filter to selected date
       const dayStart = new Date(`${selectedDate}T00:00:00`);
       const dayEnd   = new Date(`${selectedDate}T23:59:59`);
       const dayBookings = (res.data || []).filter(b => {
@@ -284,7 +369,7 @@ export default function Bookings() {
     } finally {
       setLoadingBookings(false);
     }
-  }, [selectedResource, selectedDate]);
+  }, [selectedResource, selectedDate, localBookings]);
 
   useEffect(() => { fetchBookings(); }, [fetchBookings]);
 
@@ -325,6 +410,56 @@ export default function Bookings() {
     if (!selectedResource || selStart === null) return;
     setSubmitting(true);
     setConflictMsg('');
+
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+    if (isMockMode) {
+      const startIso = buildDateTimeISO(selectedDate, selStart);
+      const endIso = buildDateTimeISO(selectedDate, selEnd);
+      const start = new Date(startIso);
+      const end = new Date(endIso);
+
+      // Check overlap locally
+      const conflict = localBookings.find((b) => {
+        if (b.assetId !== selectedResource.id) return false;
+        if (b.status === 'Cancelled') return false;
+        const bStart = new Date(b.startTime);
+        const bEnd = new Date(b.endTime);
+        return bStart < end && bEnd > start;
+      });
+
+      if (conflict) {
+        setConflictMsg(
+          `Requested ${formatHour(selStart)}–${formatHour(selEnd)} conflicts with an existing booking (${formatTimeRange(conflict.startTime, conflict.endTime)}) — this slot is unavailable.`
+        );
+        setDragStart(null);
+        setDragEnd(null);
+        setSubmitting(false);
+        return;
+      }
+
+      const newBooking = {
+        id: `bkg-${Date.now()}`,
+        assetId: selectedResource.id,
+        employeeId: user?.id || 'usr-mock',
+        startTime: startIso,
+        endTime: endIso,
+        status: 'Upcoming',
+        purpose: purpose || 'Resource Booking',
+        employee: { name: user?.name || 'Mock User', email: user?.email || 'mock@assetflow.com' },
+      };
+
+      setLocalBookings((prev) => [...prev, newBooking]);
+      toast(`Booking confirmed: ${formatHour(selStart)} – ${formatHour(selEnd)}`);
+      setPopoverOpen(false);
+      setDragStart(null);
+      setDragEnd(null);
+      setPurpose('');
+      setSubmitting(false);
+      return;
+    }
+
     try {
       await api.post('/bookings', {
         assetId:   selectedResource.id,
@@ -360,6 +495,20 @@ export default function Bookings() {
   const handleCancelBooking = async () => {
     if (!cancelTarget) return;
     setCancelling(true);
+
+    const tokenVal = localStorage.getItem('token');
+    const isMockMode = tokenVal?.startsWith('mock-token-') || !tokenVal;
+
+    if (isMockMode) {
+      setLocalBookings((prev) =>
+        prev.map((b) => (b.id === cancelTarget.id ? { ...b, status: 'Cancelled' } : b))
+      );
+      toast('Booking cancelled.');
+      setCancelTarget(null);
+      setCancelling(false);
+      return;
+    }
+
     try {
       await api.patch(`/bookings/${cancelTarget.id}/cancel`);
       toast('Booking cancelled.');
